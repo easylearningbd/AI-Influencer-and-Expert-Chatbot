@@ -1,5 +1,6 @@
 @extends('admin.admin_dashboard')
 @section('admin')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <div class="page-container">
 
@@ -15,13 +16,34 @@
     <form>
         <div class="row g-2">
             <div class="mb-3 col-md-6">
-                <label for="inputEmail4" class="form-label">Email</label>
-                <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                <label for="inputEmail4" class="form-label">User Name</label>
+                <input type="text" name="name" class="form-control" id="inputEmail4" value="{{ $profileData->name }}">
             </div>
             <div class="mb-3 col-md-6">
-                <label for="inputPassword4" class="form-label">Password</label>
-                <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+                <label for="inputEmail4" class="form-label">User Email</label>
+                <input type="email" name="email" class="form-control" id="inputEmail4" value="{{ $profileData->email }}">
             </div>
+
+            <div class="mb-3 col-md-6">
+                <label for="inputEmail4" class="form-label">User Phone</label>
+                <input type="text" name="phone" class="form-control" id="inputEmail4" value="{{ $profileData->phone }}">
+            </div>
+
+            <div class="mb-3 col-md-6">
+                <label for="inputEmail4" class="form-label">User Address</label>
+                <input type="text" name="address" class="form-control" id="inputEmail4" value="{{ $profileData->address }}">
+            </div>
+
+             <div class="mb-3 col-md-6">
+                <label for="inputEmail4" class="form-label">Profile Image</label>
+                <input type="file" name="photo" class="form-control" id="image" >
+            </div>
+
+             <div class="mb-3 col-md-6">
+                <label for="inputEmail4" class="form-label"> </label>
+            <img id="showImage" src="{{ (!empty($profileData->photo)) ? url('upload/admin_images/'.$profileData->photo) : url('upload/no_image.jpg')  }}" class="rounded-circle avatar-xl" style="width: 100px; height:100px;" >
+            </div>
+
         </div>
 
 
@@ -36,4 +58,20 @@
 
 
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#image').change(function(e){
+            var reader = new FileReader();
+            reader.onload = function(e){
+                $('#showImage').attr('src',e.target.result);
+            } 
+            reader.readAsDataURL(e.target.files['0']);
+        })
+    })
+
+</script>
+
+
+
 @endsection
