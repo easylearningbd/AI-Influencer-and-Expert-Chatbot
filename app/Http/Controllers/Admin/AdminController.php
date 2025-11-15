@@ -74,6 +74,16 @@ class AdminController extends Controller
     }
       // End Method 
 
+    public function AdminChangePassword(){
+        return view('admin.change_password');
+    }
+      // End Method 
+
+    public function AdminPasswordUpdate(Request $request){
+
+    }
+    // End Method 
+
 
 
 } 
