@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsUser;
+use App\Http\Controllers\Admin\PlanController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,6 +33,19 @@ Route::post('/admin/profile/store', [AdminController::class, 'AdminProfileStore'
 
 Route::get('/admin/change/password', [AdminController::class, 'AdminChangePassword'])->name('admin.change.password');
 Route::post('/admin/password/update', [AdminController::class, 'AdminPasswordUpdate'])->name('admin.password.update');
+
+
+Route::controller(PlanController::class)->group(function(){
+
+    Route::get('/admin/plans/index', 'PlanIndex')->name('admin.plans.index');
+     
+
+});
+
+
+
+
+
 
 
 });
