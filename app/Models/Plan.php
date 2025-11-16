@@ -11,6 +11,8 @@ class Plan extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
+        'is_featured' => 'boolean',
+        'is_subscription' => 'boolean',
         'features' => 'array',
         'price' => 'decimal:2',
         'tokens' => 'integer',
