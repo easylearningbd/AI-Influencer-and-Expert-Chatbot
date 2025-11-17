@@ -16,8 +16,9 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-<form action="{{ route('admin.plans.store') }}" method="POST">
+<form action="{{ route('admin.plans.update',$plan->id) }}" method="POST">
     @csrf
+    @method('PUT')
 
     <div class="mb-3">
         <label for="name" class="form-label">Plan Name <span class="text-danger">*</span></label>

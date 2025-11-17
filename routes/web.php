@@ -41,6 +41,7 @@ Route::get('/admin/plans/index', 'PlanIndex')->name('admin.plans.index');
 Route::get('/admin/plans/create', 'PlanCreate')->name('admin.plans.create');
 Route::post('/admin/plans/store', 'PlanStore')->name('admin.plans.store');    
 Route::get('/admin/plans/{plan}/edit', 'PlanEdit')->name('admin.plans.edit');
+Route::put('/admin/plans/{plan}/update', 'PlanUpdate')->name('admin.plans.update');
 
 });
 
