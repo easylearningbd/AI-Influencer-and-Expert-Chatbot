@@ -7,7 +7,7 @@
             <h4 class="fs-18 fw-semibold m-0">Manage Token Plans</h4>
         </div>
         <div>
-            <a href=" " class="btn btn-sm btn-primary">
+            <a href="{{ route('admin.plans.create') }}" class="btn btn-sm btn-primary">
                 <i class="mdi mdi-plus"></i> Create New Plan
             </a>
         </div>
@@ -95,7 +95,7 @@
             <td colspan="8" class="text-center text-muted py-4">
                 <i class="mdi mdi-inbox" style="font-size: 3rem; opacity: 0.3;"></i>
                 <p>No plans created yet</p>
-                <a href=" " class="btn btn-primary">
+                <a href="{{ route('admin.plans.create') }}" class="btn btn-primary">
                     <i class="mdi mdi-plus"></i> Create First Plan
                 </a>
             </td>

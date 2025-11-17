@@ -16,6 +16,11 @@ class PlanController extends Controller
     }
     // End Method 
 
+    public function PlanCreate(){
+        return view('admin.backend.plans.plans_create');
+    }
+     // End Method 
+
 
 
 

@@ -37,7 +37,8 @@ Route::post('/admin/password/update', [AdminController::class, 'AdminPasswordUpd
 
 Route::controller(PlanController::class)->group(function(){
 
-    Route::get('/admin/plans/index', 'PlanIndex')->name('admin.plans.index');
+Route::get('/admin/plans/index', 'PlanIndex')->name('admin.plans.index');
+Route::get('/admin/plans/create', 'PlanCreate')->name('admin.plans.create');
      
 
 });
