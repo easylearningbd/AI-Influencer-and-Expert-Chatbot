@@ -21,6 +21,43 @@ class PlanController extends Controller
     }
      // End Method 
 
+    public function PlanStore(Request $request){
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'tokens' => 'required|integer|min:1',
+            'price' => 'required|numeric|min:0',
+            'type' => 'required|in:one-time,monthly,yearly',
+            'sort_order' => 'nullable|integer',
+            'features' => 'nullable|array',
+            'features.*' => 'string',
+            'is_active' => 'boolean',
+            'is_featured' => 'boolean',
+
+        ]);
+
+        $data = $request->all();
+
+        // Filter out empty features
+        if (isset($data['features'])) {
+           $data['features'] = array_filter($data['features'], function($feature) {
+            return !empty(trim($feature));
+           });
+        }
+
+        Plan::create($data);
+
+         $notification = array(
+            'message' => 'Plan Created Successfully',
+            'alert-type' => 'success'
+        ); 
+
+        return redirect()->route('admin.plans.index')->with($notification); 
+
+    }
+    // End Method 
+
 
 
 

@@ -39,7 +39,7 @@ Route::controller(PlanController::class)->group(function(){
 
 Route::get('/admin/plans/index', 'PlanIndex')->name('admin.plans.index');
 Route::get('/admin/plans/create', 'PlanCreate')->name('admin.plans.create');
-     
+Route::post('/admin/plans/store', 'PlanStore')->name('admin.plans.store');    
 
 });
 
