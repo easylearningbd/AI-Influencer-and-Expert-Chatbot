@@ -80,7 +80,7 @@
         <label class="form-label">Features</label>
         <div id="features-container">
             <div class="input-group mb-2">
-                <input type="text" class="form-control" name="features[]" placeholder="e.g., Chat with any influencer">
+                <input type="text" class="form-control" name="features[]" placeholder="e.g., Enter Features">
                 <button type="button" class="btn btn-danger remove-feature" style="display: none;">
                     <i class="ri-file-reduce-line"></i>
                 </button>
@@ -139,6 +139,55 @@
     </div>
 
 </div>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    const featuresContainer = document.getElementById('features-container');
+    const addFeatureBtn = document.getElementById('add-feature');
+
+    /// Add New Feature field 
+    addFeatureBtn.addEventListener('click', function(){
+        const newField = document.createElement('div');
+        newField.className = 'input-group mb-2';
+        newField.innerHTML = `
+        <input type="text" class="form-control" name="features[]" placeholder="Enter Features">
+        <button type="button" class="btn btn-danger remove-feature">
+            <i class="ri-file-reduce-line"></i>
+        </button>        
+        `;
+        featuresContainer.appendChild(newField);
+        updateRemoveButtons();
+    });
+
+    // Remove feature field 
+    featuresContainer.addEventListener('click', function(e){
+        if (e.target.closest('.remove-feature')) {
+            e.target.closest('.input-group').remove();
+            updateRemoveButtons();
+        }
+    });
+
+    /// Update remove button visibility 
+
+    function updateRemoveButtons(){
+        const fields = featuresContainer.querySelectorAll('.input-group');
+        fields.forEach((field, index) => {
+            const removeBtn = field.querySelector('.remove-feature');
+            if (fields.length > 1) {
+                removeBtn.style.display = 'block';
+            } else {
+                 removeBtn.style.display = 'none';
+            }
+        });
+    }  
+
+    updateRemoveButtons();
+
+ }); 
+
+</script>
 
  
 @endsection
