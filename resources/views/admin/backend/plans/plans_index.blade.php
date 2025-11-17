@@ -73,7 +73,7 @@
                     <a href="{{ route('admin.plans.edit',$plan->id) }}" class="btn btn-sm btn-primary">
                         <i class="ri-pencil-line"></i>
                     </a>
-                    <form action=" " method="POST" class="d-inline">
+                    <form action="{{ route('admin.status.update',$plan->id) }}" method="POST" class="d-inline">
                         @csrf
                         <button type="submit" class="btn btn-sm btn-{{ $plan->is_active ? 'warning' : 'success' }}"> 
                             <i class="ri-eye-{{$plan->is_active ? 'line' : 'off-line' }} "></i> 

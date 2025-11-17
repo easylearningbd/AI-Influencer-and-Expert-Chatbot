@@ -105,6 +105,22 @@ class PlanController extends Controller
     }
     // End Method 
 
+    public function PlanStatusUpdate(Plan $plan){
+
+         $plan->update([
+            'is_active' => !$plan->is_active
+         ]);
+
+         $notification = array(
+            'message' => 'Plan Status Updated Successfully',
+            'alert-type' => 'success'
+        ); 
+
+        return redirect()->back()->with($notification); 
+
+    }
+    // End Method 
+
 
 
 
