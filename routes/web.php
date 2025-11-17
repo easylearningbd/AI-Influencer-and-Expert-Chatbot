@@ -42,7 +42,8 @@ Route::get('/admin/plans/create', 'PlanCreate')->name('admin.plans.create');
 Route::post('/admin/plans/store', 'PlanStore')->name('admin.plans.store');    
 Route::get('/admin/plans/{plan}/edit', 'PlanEdit')->name('admin.plans.edit');
 Route::put('/admin/plans/{plan}/update', 'PlanUpdate')->name('admin.plans.update');
-Route::post('/admin/status/{plan}/update', 'PlanStatusUpdate')->name('admin.status.update');   
+Route::post('/admin/status/{plan}/update', 'PlanStatusUpdate')->name('admin.status.update');  
+Route::delete('/admin/plans/{plan}/delete', 'PlansDelete')->name('admin.plans.delete'); 
 
 });
 

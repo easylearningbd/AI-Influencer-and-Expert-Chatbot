@@ -73,19 +73,19 @@
                     <a href="{{ route('admin.plans.edit',$plan->id) }}" class="btn btn-sm btn-primary">
                         <i class="ri-pencil-line"></i>
                     </a>
-                    <form action="{{ route('admin.status.update',$plan->id) }}" method="POST" class="d-inline">
-                        @csrf
-                        <button type="submit" class="btn btn-sm btn-{{ $plan->is_active ? 'warning' : 'success' }}"> 
-                            <i class="ri-eye-{{$plan->is_active ? 'line' : 'off-line' }} "></i> 
-                        </button>
-                    </form>
-                    <form action=" " method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this plan?')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger"  >
-                            <i class="ri-chat-delete-line"></i>
-                        </button>
-                    </form>
+        <form action="{{ route('admin.status.update',$plan->id) }}" method="POST" class="d-inline">
+            @csrf
+            <button type="submit" class="btn btn-sm btn-{{ $plan->is_active ? 'warning' : 'success' }}"> 
+                <i class="ri-eye-{{$plan->is_active ? 'line' : 'off-line' }} "></i> 
+            </button>
+        </form>
+        <form action="{{ route('admin.plans.delete',$plan->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this plan?')">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-sm btn-danger"  >
+                <i class="ri-chat-delete-line"></i>
+            </button>
+        </form>
                 </div>
             </td>
         </tr>
