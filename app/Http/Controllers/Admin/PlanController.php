@@ -59,7 +59,10 @@ class PlanController extends Controller
     // End Method 
 
 
-
+    public function PlanEdit(Plan $plan){
+        return view('admin.backend.plans.plans_edit',compact('plan'));
+    }
+     // End Method 
 
 
 

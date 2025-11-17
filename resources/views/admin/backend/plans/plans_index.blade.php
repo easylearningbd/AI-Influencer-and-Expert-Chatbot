@@ -70,7 +70,7 @@
             </td>
             <td>
                 <div class="btn-group">
-                    <a href=" " class="btn btn-sm btn-primary">
+                    <a href="{{ route('admin.plans.edit',$plan->id) }}" class="btn btn-sm btn-primary">
                         <i class="ri-pencil-line"></i>
                     </a>
                     <form action=" " method="POST" class="d-inline">
