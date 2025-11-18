@@ -31,6 +31,10 @@ class Influencer extends Model
         return $this->hasMany(InfluencerData::class);
    }
 
+    public function chats() : HasMany {
+        return $this->hasMany(Chat::class);
+   }
+
    // Helper method to get all training content 
    public function getAllTrainingContent(): string {
         return $this->InfluencerData()
