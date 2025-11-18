@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsUser;
 use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Admin\InfluencerController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -49,6 +50,11 @@ Route::delete('/admin/plans/{plan}/delete', 'PlansDelete')->name('admin.plans.de
 
 
 
+Route::controller(InfluencerController::class)->group(function(){
+
+Route::get('/admin/influencers/index', 'AdminInfluencersIndex')->name('admin.influencers.index');
+ 
+});
 
 
 

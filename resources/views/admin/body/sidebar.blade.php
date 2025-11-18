@@ -39,6 +39,13 @@
             </a>
         </li>
 
+         <li class="side-nav-item">
+            <a href="{{ route('admin.influencers.index') }}" class="side-nav-link">
+                <span class="menu-icon"><i class="ti ti-message"></i></span>
+                <span class="menu-text"> Influencers  </span>
+            </a>
+        </li>
+
         <li class="side-nav-item">
             <a href="{{ route('admin.plans.index') }}" class="side-nav-link">
                 <span class="menu-icon"><i class="ti ti-message"></i></span>
