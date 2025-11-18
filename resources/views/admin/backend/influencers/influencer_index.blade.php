@@ -15,7 +15,7 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="card-title mb-0">All Influencers</h5>
-                        <a href=" " class="btn btn-primary">
+                        <a href="{{ route('admin.influencers.create') }}" class="btn btn-primary">
                             <i class="mdi mdi-plus-circle me-1"></i> Add New Influencer
                         </a>
                     </div>
@@ -110,7 +110,7 @@
             <tr>
                 <td colspan="8" class="text-center py-4">
                     <p class="text-muted mb-0">No influencers found.
-    <a href=" " class="btn btn-primary">
+    <a href="{{ route('admin.influencers.create') }}" class="btn btn-primary">
 <i class="mdi mdi-plus"></i> Create your first influencer
 </a>  
                         

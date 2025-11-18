@@ -53,6 +53,7 @@ Route::delete('/admin/plans/{plan}/delete', 'PlansDelete')->name('admin.plans.de
 Route::controller(InfluencerController::class)->group(function(){
 
 Route::get('/admin/influencers/index', 'AdminInfluencersIndex')->name('admin.influencers.index');
+Route::get('/admin/influencers/create', 'AdminInfluencersCreate')->name('admin.influencers.create');
  
 });
 

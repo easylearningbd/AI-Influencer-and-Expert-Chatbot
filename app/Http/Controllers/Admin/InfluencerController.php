@@ -17,6 +17,12 @@ class InfluencerController extends Controller
     }
     // End Method 
 
+    public function AdminInfluencersCreate(){
+
+        return view('admin.backend.influencers.influencer_create');
+    }
+    // End Method 
+
 
 
 
