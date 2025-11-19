@@ -57,6 +57,7 @@ Route::get('/admin/influencers/create', 'AdminInfluencersCreate')->name('admin.i
 Route::post('/admin/influencers/store', 'AdminInfluencersStore')->name('admin.influencers.store');
 
 Route::get('/admin/influencers/{influencer}/edit', 'AdminInfluencersEdit')->name('admin.influencers.edit');
+Route::put('/admin/influencers/{influencer}/update', 'AdminInfluencersUpdate')->name('admin.influencers.update');
  
 });
 

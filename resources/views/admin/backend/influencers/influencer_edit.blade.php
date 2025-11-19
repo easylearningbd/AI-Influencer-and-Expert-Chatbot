@@ -24,7 +24,7 @@
 
                 <div class="card-body"> 
 
-<form action=" " method="POST" enctype="multipart/form-data">
+<form action="{{ route('admin.influencers.update',$influencer->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -41,38 +41,38 @@
 
     <div class="mb-3">
         <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" id="name" name="name" value="{{ old('name',  ) }}" required>
+        <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $influencer->name ) }}" required>
     </div>
 
     <div class="mb-3">
         <label for="niche" class="form-label">Niche</label>
-        <input type="text" class="form-control" id="niche" name="niche" value="{{ old('niche',  ) }}">
+        <input type="text" class="form-control" id="niche" name="niche" value="{{ old('niche', $influencer->niche ) }}">
     </div>
 
     <div class="mb-3">
         <label for="bio" class="form-label">Bio / Description</label>
-        <textarea class="form-control" id="bio" name="bio" rows="3">{{ old('bio', ) }}</textarea>
+        <textarea class="form-control" id="bio" name="bio" rows="3">{{ old('bio', $influencer->bio) }}</textarea>
     </div>
 
     <div class="mb-3">
         <label for="style" class="form-label">Personality / Tone</label>
-        <textarea class="form-control" id="style" name="style" rows="3">{{ old('style',  ) }}</textarea>
+        <textarea class="form-control" id="style" name="style" rows="3">{{ old('style',$influencer->style  ) }}</textarea>
     </div>
 
     <div class="mb-3">
         <label for="system_prompt" class="form-label">System Prompt</label>
-        <textarea class="form-control" id="system_prompt" name="system_prompt" rows="4">{{ old('system_prompt',  ) }}</textarea>
+        <textarea class="form-control" id="system_prompt" name="system_prompt" rows="4">{{ old('system_prompt', $influencer->system_prompt ) }}</textarea>
     </div>
 
     <div class="mb-3">
         <label for="image_prompt" class="form-label">Image Generation Prompt Template</label>
-        <textarea class="form-control" id="image_prompt" name="image_prompt" rows="3">{{ old('image_prompt',  ) }}</textarea>
+        <textarea class="form-control" id="image_prompt" name="image_prompt" rows="3">{{ old('image_prompt', $influencer->image_prompt ) }}</textarea>
         <small class="text-muted">Template for DALL-E 3 image generation. Use {scenario} as placeholder for user requests.</small>
     </div>
 
     <div class="mb-3">
         <label for="youtube_link" class="form-label">YouTube Channel Link</label>
-        <input type="url" class="form-control" id="youtube_link" name="youtube_link" value="{{ old('youtube_link', ) }}">
+        <input type="url" class="form-control" id="youtube_link" name="youtube_link" value="{{ old('youtube_link', $influencer->youtube_link) }}">
     </div>
 
     <div class="mb-3">
@@ -81,15 +81,15 @@
     </div>
 
     <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="can_generate_images" name="can_generate_images" value="1" {{ old('can_generate_images' ) ? 'checked' : '' }}>
-        <label class="form-check-label" for="can_generate_images">
+        <input type="checkbox" class="form-check-input" id="can_generate_image" name="can_generate_image" value="1" {{ old('can_generate_image', $influencer->can_generate_image) ? 'checked' : '' }}>
+        <label class="form-check-label" for="can_generate_image">
             <strong>Enable Image Generation</strong>
             <small class="d-block text-muted">Allow users to request AI-generated photos/selfies (10 tokens per image)</small>
         </label>
     </div>
 
     <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" {{ old('is_active', ) ? 'checked' : '' }}>
+        <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" {{ old('is_active',$influencer->is_active ) ? 'checked' : '' }}>
         <label class="form-check-label" for="is_active">
             <strong>Active</strong>
             <small class="d-block text-muted">Make this influencer visible and available for chat to users</small>
