@@ -23,7 +23,7 @@
 
                 <div class="card-body"> 
 
-<form action=" " method="POST" enctype="multipart/form-data">
+<form action="{{ route('admin.influencers.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
 
     <div class="row">
@@ -65,8 +65,8 @@
     </div>
 
     <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="can_generate_images" name="can_generate_images" value="1" {{ old('can_generate_images', true) ? 'checked' : '' }}>
-        <label class="form-check-label" for="can_generate_images">
+        <input type="checkbox" class="form-check-input" id="can_generate_image" name="can_generate_image" value="1" {{ old('can_generate_image', true) ? 'checked' : '' }}>
+        <label class="form-check-label" for="can_generate_image">
             <strong>Enable Image Generation</strong>
             <small class="d-block text-muted">Allow users to request AI-generated photos/selfies of this influencer (10 tokens per image)</small>
         </label>

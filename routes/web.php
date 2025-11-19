@@ -54,6 +54,7 @@ Route::controller(InfluencerController::class)->group(function(){
 
 Route::get('/admin/influencers/index', 'AdminInfluencersIndex')->name('admin.influencers.index');
 Route::get('/admin/influencers/create', 'AdminInfluencersCreate')->name('admin.influencers.create');
+Route::post('/admin/influencers/store', 'AdminInfluencersStore')->name('admin.influencers.store');
  
 });
 
