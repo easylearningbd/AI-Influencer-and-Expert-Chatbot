@@ -64,6 +64,12 @@ class InfluencerController extends Controller
      // End Method 
 
 
+     public function AdminInfluencersEdit(Influencer $influencer){
+        $influencer->load('influencerData');
+        return view('admin.backend.influencers.influencer_edit',compact('influencer'));
+     }
+     // End Method 
+
 
 
 }

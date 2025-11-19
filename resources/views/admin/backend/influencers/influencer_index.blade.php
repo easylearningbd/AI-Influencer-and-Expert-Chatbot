@@ -82,7 +82,7 @@
     </td>
     <td>
         <div class="btn-group" role="group">
-            <a href=" " class="btn btn-sm btn-primary" title="Edit">
+            <a href="{{ route('admin.influencers.edit',$influncer->id) }}" class="btn btn-sm btn-primary" title="Edit">
                 <i class="ri-pencil-line"></i>
             </a>
             <a href=" " class="btn btn-sm btn-info" title="View">
