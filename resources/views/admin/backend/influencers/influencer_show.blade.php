@@ -61,36 +61,38 @@
                 <tr>
                     <th width="30%">Status:</th>
                     <td>
-                        
+                        @if ($influencer->is_active) 
                             <span class="badge bg-success">Active</span>
-                        
+                        @else 
                             <span class="badge bg-danger">Inactive</span>
-                        
+                        @endif
                     </td>
                 </tr>
                 <tr>
                     <th>Bio:</th>
-                    <td>bio</td>
+                    <td>{{ $influencer->bio ?? 'Not Provided' }}</td>
                 </tr>
                 <tr>
                     <th>Personality/Tone:</th>
-                    <td>style</td>
+                    <td>{{ $influencer->style ?? 'Not Provided' }}</td>
                 </tr>
                 <tr>
                     <th>YouTube Channel:</th>
                     <td>
-                        
+                         @if ($influencer->youtube_link) 
+                         <a href="{{ $influencer->youtube_link }}" target="_blank" >{{ $influencer->youtube_link }}</a>
+                         @else 
                             Not provided
-                        
+                         @endif
                     </td>
                 </tr>
                 <tr>
                     <th>Created:</th>
-                    <td>created_at</td>
+                    <td>{{ $influencer->created_at->format('M d, Y h:i A') }}</td>
                 </tr>
                 <tr>
                     <th>Last Updated:</th>
-                    <td>updated_at</td>
+                    <td>{{ $influencer->updated_at->format('M d, Y h:i A') }}</td>
                 </tr>
             </table>
         </div>
@@ -102,25 +104,26 @@
             <h5 class="card-title mb-0">Recent Chat History</h5>
         </div>
         <div class="card-body">
-            
+            @if ($influencer->chats->count() > 0 ) 
                 <div class="list-group">
-                    
+                   @foreach ($influencer->chats as $chat) 
                     <div class="list-group-item">
                         <div class="d-flex justify-content-between">
-                            <strong>user</strong>
-                            <small class="text-muted">created_at</small>
+                            <strong>{{ $chat->user->name }}</strong>
+                            <small class="text-muted">{{ $chat->created_at->diffForHumans() }}</small>
                         </div>
-                        <p class="mb-1 mt-2"><strong>User:</strong>  </p>
-                        <p class="mb-1 text-muted"><strong>Response:</strong>  </p>
-                        <small class="text-muted">Tokens used:  </small>
+                        <p class="mb-1 mt-2"><strong>User:</strong> {{ Str::limit($chat->message, 100) }} </p>
+                        <p class="mb-1 text-muted"><strong>Response:</strong> {{ Str::limit($chat->response, 100) }} </p>
+                        <small class="text-muted">Tokens used: {{ $chat->tokens_used }} </small>
                     </div>
+                   @endforeach 
                     
                 </div>
-            
+            @else
                 <div class="alert alert-info mb-0">
                     <i class="mdi mdi-information"></i> No chat history yet.
                 </div>
-            
+             @endif
         </div>
     </div>
 </div>
