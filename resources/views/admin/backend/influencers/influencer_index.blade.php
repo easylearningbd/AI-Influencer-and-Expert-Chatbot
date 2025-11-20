@@ -85,7 +85,7 @@
             <a href="{{ route('admin.influencers.edit',$influncer->id) }}" class="btn btn-sm btn-primary" title="Edit">
                 <i class="ri-pencil-line"></i>
             </a>
-            <a href=" " class="btn btn-sm btn-info" title="View">
+            <a href="{{ route('admin.influencers.show',$influncer->id) }}" class="btn btn-sm btn-info" title="View">
                 <i class="ri-focus-3-line"></i>
             </a>
             <form action="{{ route('admin.influencers.status',$influncer->id) }}" method="POST" class="d-inline">

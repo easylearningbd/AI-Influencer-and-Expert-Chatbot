@@ -134,6 +134,15 @@ class InfluencerController extends Controller
     }
     // End Method 
 
+    public function AdminInfluencersShow(Influencer $influencer){
+
+        $influencer->load(['influencerData', 'chats' => function($query) {
+            $query->latest()->limit(10);
+        }]);
+        return view('admin.backend.influencers.influencer_show',compact('influencer'));
+    }
+    // End Method 
+
 
 
 }
