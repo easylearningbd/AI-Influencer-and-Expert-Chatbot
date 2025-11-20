@@ -143,6 +143,31 @@ class InfluencerController extends Controller
     }
     // End Method 
 
+    public function AdminInfluencersDelete(Influencer $influencer){
+
+        // Delete avater if exists 
+        if ($influencer->avatar && file_exists(public_path($influencer->avatar))) {
+           unlink(public_path($influencer->avatar));
+        }
+
+        // Delete associated training data files 
+        foreach($influencer->influencerData as $data){
+            if ($data->file_path && file_exists(public_path($data->file_path))) {
+                unlink(public_path($data->file_path));
+            }
+        }
+
+        $influencer->delete();
+
+        $notification = array(
+            'message' => 'Influencer Deleted Successfully',
+            'alert-type' => 'success'
+        ); 
+
+        return redirect()->back()->with($notification); 
+    }
+      // End Method 
+
 
 
 }

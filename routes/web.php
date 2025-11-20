@@ -61,6 +61,7 @@ Route::put('/admin/influencers/{influencer}/update', 'AdminInfluencersUpdate')->
 
 Route::post('/admin/influencers/{influencer}/status', 'AdminInfluencersStatus')->name('admin.influencers.status');
 Route::get('/admin/influencers/{influencer}/show', 'AdminInfluencersShow')->name('admin.influencers.show');
+Route::delete('/admin/influencers/{influencer}/delete', 'AdminInfluencersDelete')->name('admin.influencers.delete');
  
 });
 

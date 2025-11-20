@@ -94,7 +94,7 @@
                     <i class="ri-arrow-left-right-line"></i>
                 </button>
             </form>
-            <form action=" " method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this influencer?')">
+            <form action="{{ route('admin.influencers.delete',$influncer->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this influencer?')">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-sm btn-danger" title="Delete">
