@@ -118,5 +118,22 @@ class InfluencerController extends Controller
       // End Method 
 
 
+    public function AdminInfluencersStatus(Influencer $influencer){
+
+        $influencer->update([
+            'is_active' => !$influencer->is_active
+        ]);
+
+        $notification = array(
+            'message' => 'Status Updated Successfully',
+            'alert-type' => 'success'
+        ); 
+
+        return redirect()->back()->with($notification);   
+
+    }
+    // End Method 
+
+
 
 }

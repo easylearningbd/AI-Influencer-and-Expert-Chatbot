@@ -58,6 +58,8 @@ Route::post('/admin/influencers/store', 'AdminInfluencersStore')->name('admin.in
 
 Route::get('/admin/influencers/{influencer}/edit', 'AdminInfluencersEdit')->name('admin.influencers.edit');
 Route::put('/admin/influencers/{influencer}/update', 'AdminInfluencersUpdate')->name('admin.influencers.update');
+
+Route::post('/admin/influencers/{influencer}/status', 'AdminInfluencersStatus')->name('admin.influencers.status');
  
 });
 

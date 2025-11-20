@@ -88,7 +88,7 @@
             <a href=" " class="btn btn-sm btn-info" title="View">
                 <i class="ri-focus-3-line"></i>
             </a>
-            <form action=" " method="POST" class="d-inline">
+            <form action="{{ route('admin.influencers.status',$influncer->id) }}" method="POST" class="d-inline">
                 @csrf
                 <button type="submit" class="btn btn-sm btn-warning" title="Toggle Status">
                     <i class="ri-arrow-left-right-line"></i>
