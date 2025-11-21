@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Influencer;
 use App\Models\InfluencerData;
 use Illuminate\Support\Str;
+use Smalot\PdfParser\Parser as PdfParser;
 
 class InfluencerDataController extends Controller
 {
@@ -53,6 +54,25 @@ class InfluencerDataController extends Controller
 
     }
     // End Method 
+
+    // Extract the text from pdf using pdfparser pacakge
+    private function extractPdfText($filePath){
+        try {
+
+            $parser = new PdfParser();
+            $pdf = $parser->parseFile($filePath);
+            $text = $pdf->getText();
+
+            /// clearn up the text 
+            $text = preg_replace('/\s+/',' ',$text);
+            $text = trim($text);
+
+            return $text;
+          
+        } catch (\Exception $e) {
+            return "Error extracing PDF Text: " . $e->getMessage();
+        }
+    }
 
 
 
