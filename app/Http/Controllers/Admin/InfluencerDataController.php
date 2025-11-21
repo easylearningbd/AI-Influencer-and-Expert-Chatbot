@@ -100,6 +100,24 @@ class InfluencerDataController extends Controller
     }
       // End Method 
 
+    public function AdminInfluencersDataDelete(InfluencerData $influencer){
+
+        // Delete file if exists
+        if ($influencer->file_path && file_exists(public_path($influencer->file_path))) {
+            unlink(public_path($influencer->file_path));
+        }
+
+        $influencer->delete();
+
+         $notification = array(
+            'message' => 'Training data deleted Successfully',
+            'alert-type' => 'success'
+        ); 
+
+        return redirect()->back()->with($notification);  
+
+    }
+    // End Method 
 
 
 

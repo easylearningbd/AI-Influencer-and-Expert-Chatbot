@@ -210,7 +210,7 @@
                             Added {{ $data->created_at->diffForHumans() }}
                         </small>
                     </div>
-                    <form action=" " method="POST" onsubmit="return confirm('Delete this training data?')">
+                    <form action="{{ route('admin.influencer-data.delete',$data->id) }}" method="POST" onsubmit="return confirm('Delete this training data?')">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-sm btn-danger">
