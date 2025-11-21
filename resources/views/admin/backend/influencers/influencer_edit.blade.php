@@ -164,7 +164,7 @@
 
         <!-- Manual Text -->
         <div class="tab-pane fade" id="manual-text" role="tabpanel">
-            <form action=" " method="POST">
+            <form action="{{ route('admin.influencer-data.addtext',$influencer->id) }}" method="POST">
                 @csrf
                 <div class="mb-3">
                     <label for="content" class="form-label">Paste Text Content</label>

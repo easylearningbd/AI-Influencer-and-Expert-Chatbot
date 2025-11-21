@@ -73,6 +73,32 @@ class InfluencerDataController extends Controller
             return "Error extracing PDF Text: " . $e->getMessage();
         }
     }
+      // End private Method 
+
+
+    public function AdminInfluencersDataAddtext(Request $request, Influencer $influencer){
+
+         $request->validate([
+            'content' => 'required|string|min:10',  
+        ]);
+
+       // store data in database table InfluencerData
+        InfluencerData::create([
+            'influencer_id' => $influencer->id,
+            'type' => 'txt', 
+            'content' => $request->content,
+            'chunk_size' => strlen($request->content),
+        ]);
+
+        $notification = array(
+            'message' => 'Text Content data Added Successfully',
+            'alert-type' => 'success'
+        ); 
+
+        return redirect()->back()->with($notification);  
+
+    }
+      // End Method 
 
 
 

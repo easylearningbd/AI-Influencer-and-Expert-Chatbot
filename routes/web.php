@@ -71,7 +71,7 @@ Route::delete('/admin/influencers/{influencer}/delete', 'AdminInfluencersDelete'
 Route::controller(InfluencerDataController::class)->group(function(){
 
 Route::post('/admin/influencers/data/{influencer}/upload', 'AdminInfluencersDataUpload')->name('admin.influencer-data.upload');
- 
+Route::post('/admin/influencers/data/{influencer}/addtext', 'AdminInfluencersDataAddtext')->name('admin.influencer-data.addtext');
  
 });
 
