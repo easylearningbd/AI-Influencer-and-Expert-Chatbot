@@ -180,31 +180,34 @@
     <hr class="my-4">
 
     <!-- Training Data List -->
-    <h6 class="mb-3">Uploaded Training Data (2)</h6>
+    <h6 class="mb-3">Uploaded Training Data ({{ $influencer->influencerData->count() }})</h6>
 
-    
+        @if ($influencer->influencerData->count() > 0) 
         <div class="list-group">
-            
+           @foreach ($influencer->influencerData as $data) 
             <div class="list-group-item">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        
+                        @if ($data->type == 'pdf')  
                             <i class="ri-file-pdf-2-line text-danger"></i>
-                        
+                        @elseif ($data->type == 'txt')
                             <i class="ri-file-paper-2-line text-info"></i>
-                        
+                        @else
                             <i class="ri-youtube-line text-danger"></i>
-                            
-
+                        @endif 
                         <strong>
-                              
-                                Manual Text Entry
-                            
+                        @if ($data->file_name)
+                            {{ $data->file_name }}
+                        @elseif ($data->youtube_url)
+                        Youtube Video
+                        @else  
+                         Manual Text Entry
+                        @endif 
                         </strong>
                         <br>
                         <small class="text-muted">
-                            chunk_size characters |
-                            Added created_at
+                            {{ number_format($data->chunk_size) }} characters |
+                            Added {{ $data->created_at->diffForHumans() }}
                         </small>
                     </div>
                     <form action=" " method="POST" onsubmit="return confirm('Delete this training data?')">
@@ -216,13 +219,13 @@
                     </form>
                 </div>
             </div>
-            
+         @endforeach 
         </div>
-    
+    @else 
         <div class="alert alert-info">
             <i class="mdi mdi-information"></i> No training data uploaded yet. Add some content to train the AI.
         </div>
-        
+    @endif    
 </div>
     </div>
 
@@ -232,15 +235,15 @@
         <h6 class="card-title">Statistics</h6>
         <div class="row text-center">
             <div class="col-4">
-                <h4 class="text-primary">chat_count</h4>
+                <h4 class="text-primary">{{ $influencer->chat_count }}</h4>
                 <small class="text-muted">Total Chats</small>
             </div>
             <div class="col-4">
-                <h4 class="text-info">count</h4>
+                <h4 class="text-info">{{ $influencer->influencerData->count() }}</h4>
                 <small class="text-muted">Data Sources</small>
             </div>
             <div class="col-4">
-                <h4 class="text-success">chunk_size</h4>
+                <h4 class="text-success">{{ number_format($influencer->influencerData->sum('chunk_size')) }}</h4>
                 <small class="text-muted">Total Chars</small>
             </div>
         </div>
