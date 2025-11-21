@@ -13,7 +13,43 @@ class InfluencerDataController extends Controller
 {
     public function AdminInfluencersDataUpload(Request $request, Influencer $influencer){
 
-        
+        $request->validate([
+            'file' => 'required|file|mimes:pdf,txt|max:10240', // 10MB Max
+        ]);
+
+        $file = $request->file('file');
+        $fileName = time() . '_' . Str::slug($file->getClientOriginalName());
+        $filePath = 'upload/training_data';
+
+        $file->move(public_path($filePath),$fileName);
+        $fullPath = $filePath . '/' .$fileName;
+
+        /// Extract text content based on file type 
+        $extension = $file->getClientOriginalExtension();
+        $content = '';
+
+        if ($extension === 'txt') {
+            $content = file_get_contents(public_path($fullPath));
+        } elseif($extension === 'pdf'){
+            $content = $this->extractPdfText(public_path($fullPath));
+        }
+
+        // store data in database table InfluencerData
+        InfluencerData::create([
+            'influencer_id' => $influencer->id,
+            'type' => $extension,
+            'file_name' => $file->getClientOriginalName(),
+            'file_path' => $fullPath,
+            'content' => $content,
+            'chunk_size' => strlen($content),
+        ]);
+
+        $notification = array(
+            'message' => 'Training data uploaded Successfully',
+            'alert-type' => 'success'
+        ); 
+
+        return redirect()->back()->with($notification); 
 
     }
     // End Method 
