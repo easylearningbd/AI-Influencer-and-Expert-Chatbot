@@ -134,7 +134,7 @@
     <div class="tab-content" id="trainingDataTabContent">
         <!-- File Upload -->
         <div class="tab-pane fade show active" id="file-upload" role="tabpanel">
-            <form action=" " method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.influencer-data.upload',$influencer->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
                     <label for="file" class="form-label">Upload PDF or TXT File</label>

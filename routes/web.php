@@ -7,6 +7,7 @@ use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsUser;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\InfluencerController;
+use App\Http\Controllers\Admin\InfluencerDataController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -62,6 +63,15 @@ Route::put('/admin/influencers/{influencer}/update', 'AdminInfluencersUpdate')->
 Route::post('/admin/influencers/{influencer}/status', 'AdminInfluencersStatus')->name('admin.influencers.status');
 Route::get('/admin/influencers/{influencer}/show', 'AdminInfluencersShow')->name('admin.influencers.show');
 Route::delete('/admin/influencers/{influencer}/delete', 'AdminInfluencersDelete')->name('admin.influencers.delete');
+ 
+});
+
+
+
+Route::controller(InfluencerDataController::class)->group(function(){
+
+Route::post('/admin/influencers/data/{influencer}/upload', 'AdminInfluencersDataUpload')->name('admin.influencer-data.upload');
+ 
  
 });
 
