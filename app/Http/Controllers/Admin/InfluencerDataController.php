@@ -119,6 +119,43 @@ class InfluencerDataController extends Controller
     }
     // End Method 
 
+    public function AdminInfluencersDataYoutube(Request $request, Influencer $influencer){
+
+        $request->validate([
+            'youtube_url' => 'required|url',  
+        ]);
+
+        // Extract video ID from Url 
+        $videoId = $this->extractYoutubeVideoId($request->youtube_url);
+
+        if (!$videoId) {
+           return redirect()->back()->withErrors(['youtube_url' => 'Invalid Youtube URL']);
+        };
+
+        // Fetch transcript data 
+        $transcript = $this->fetchYoutubeTranscript($videoId);
+
+        if (!$transcript) {
+           return redirect()->back()->withErrors(['youtube_url' => 'Could not fetch transcript. Make sure the video has captions.']);
+        }
+
+         InfluencerData::create([
+            'influencer_id' => $influencer->id,
+            'type' => 'youtube', 
+            'youtube_url' => $request->youtube_url, 
+            'content' => $transcript,
+            'chunk_size' => strlen($transcript),
+        ]);
+
+        $notification = array(
+            'message' => 'Youtube Transcript Added Successfully',
+            'alert-type' => 'success'
+        ); 
+
+        return redirect()->back()->with($notification);  
+    }
+    // End Method 
+
 
 
 

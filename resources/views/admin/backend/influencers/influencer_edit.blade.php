@@ -149,7 +149,7 @@
 
         <!-- YouTube Transcript -->
         <div class="tab-pane fade" id="youtube-transcript" role="tabpanel">
-            <form action=" " method="POST">
+            <form action="{{ route('admin.influencer-data.youtube',$influencer->id) }}" method="POST">
                 @csrf
                 <div class="mb-3">
                     <label for="youtube_url" class="form-label">YouTube Video URL</label>

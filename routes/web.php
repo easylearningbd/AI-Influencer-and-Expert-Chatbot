@@ -73,6 +73,8 @@ Route::controller(InfluencerDataController::class)->group(function(){
 Route::post('/admin/influencers/data/{influencer}/upload', 'AdminInfluencersDataUpload')->name('admin.influencer-data.upload');
 Route::post('/admin/influencers/data/{influencer}/addtext', 'AdminInfluencersDataAddtext')->name('admin.influencer-data.addtext');
 Route::delete('/admin/influencers/data/{influencer}/delete', 'AdminInfluencersDataDelete')->name('admin.influencer-data.delete');
+
+Route::post('/admin/influencers/data/{influencer}/youtube', 'AdminInfluencersDataYoutube')->name('admin.influencer-data.youtube');
  
 });
 
