@@ -204,11 +204,37 @@ class InfluencerDataController extends Controller
         $transcript .= "Channel: " . $snippet['channelTitle'] . "\n\n";
         $transcript .= "Published: " . date('F d, Y', strtotime($snippet['publishedAt'])) . "\n\n";
 
-        
-            
+        if (isset($statistics['viewCount'])) {
+            $transcript .= "Views: " . number_format($statistics['viewCount']) . "\n\n"; 
+        }
 
-        } catch (\Throwable $th) {
-            //throw $th;
+         if (isset($statistics['likeCount'])) {
+            $transcript .= "Likes: " . number_format($statistics['likeCount']) . "\n\n"; 
+        }
+
+        $transcript .= "=== VIDEO DESCRIPTION ===\n\n";
+        $transcript .= $snippet['description'] . "\n\n"; 
+
+        $captionText = $this->fetchYoutubeCaptions($videoId,$apiKey);
+
+        if ($captionText) {
+           $transcript .= "=== VIDEO TRANSCRIPT (Captions) ===\n\n";
+           $transcript .= $captionText . "\n\n"; 
+           $transcript .= "NOTE: This is the actual spoken content from the video. Use this for training the AI to speak like the influencer.\n\n";
+
+        } else {
+             $transcript .= "=== NOTE ===\n";
+             $transcript .= "Video captions are not publicly available. Training data includes title and description only.\n";
+             $transcript .= "Recommendation: For better AI training, manually add transcripts or use videos with captions enabled.\n\n";
+        }
+
+        $transcript .= "Video URL: https://www.youtube.com/watch?v={$videoId}\n";
+        $transcript .= "Video ID: {$videoId}";        
+
+        return $transcript;           
+
+        } catch (\Exception $e) {
+            return "Error fetching youtube data: " . $e->getMessage() . "Video ID: {$videoId}";
         }
 
       }
