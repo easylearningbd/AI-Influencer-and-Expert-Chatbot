@@ -157,6 +157,63 @@ class InfluencerDataController extends Controller
     // End Method 
 
 
+    private function extractYoutubeVideoId($url){
+
+        $pattern = '/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/';
+
+        if (preg_match($pattern,$url,$matches)) {
+            return $matches[1];
+        }
+        return null;
+    }
+      // End Method 
+
+      private function fetchYoutubeTranscript($videoId){
+
+        try {
+           
+            $apiKey = config('services.youtube.api_key');
+
+            if (!$apiKey || $apiKey === 'your-env-api-key') {
+               return "Please add YOUTUBE_API_KEY to your .env file to fetch youtube data. Video ID: {$videoId} ";
+            }
+
+       // Fetch video details (title, description, channel info, statistics)
+        $videoUrl = "https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id={$videoId}&key={$apiKey}";
+
+        $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $videoUrl);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            $videoResponse = curl_exec($ch);
+            curl_close($ch); 
+
+        $videoData = json_decode($videoResponse, true);
+
+        if (!isset($videoData['items'][0])) {
+            return "Could not fetch yout video data.";
+        }
+
+        $video = $videoData['items'][0];
+        $snippet = $video['snippet'];
+        $statistics = $video['statistics'] ?? [];
+
+        /// Build Comprehensive transcript 
+        $transcript = "=== VIDEO INFORMATION ===\n\n";
+        $transcript .= "Title: " . $snippet['title'] . "\n\n";
+        $transcript .= "Channel: " . $snippet['channelTitle'] . "\n\n";
+        $transcript .= "Published: " . date('F d, Y', strtotime($snippet['publishedAt'])) . "\n\n";
+
+        
+            
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+      }
+       // End Method 
+
 
 
 }
