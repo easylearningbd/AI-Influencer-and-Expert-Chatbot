@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\InfluencerController;
 use App\Http\Controllers\Admin\InfluencerDataController;
 
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\ChatController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,6 +32,13 @@ Route::post('/user/profile/store', [UserController::class, 'UserProfileStore'])-
 Route::get('/user/change/password', [UserController::class, 'UserChangePassword'])->name('user.change.password');
 Route::post('/user/password/update', [UserController::class, 'UserPasswordUpdate'])->name('user.password.update');
 
+
+Route::controller(ChatController::class)->group(function(){
+
+Route::get('/user/chat/index', 'UserChatIndex')->name('user.chat.index');
+ 
+
+});
 
 
 

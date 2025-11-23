@@ -40,9 +40,9 @@
         </li>
 
          <li class="side-nav-item">
-            <a href="{{ route('admin.influencers.index') }}" class="side-nav-link">
+            <a href="{{ route('user.chat.index') }}" class="side-nav-link">
                 <span class="menu-icon"><i class="ti ti-message"></i></span>
-                <span class="menu-text"> Influencers  </span>
+                <span class="menu-text"> Chat With Influencers  </span>
             </a>
         </li>
  
