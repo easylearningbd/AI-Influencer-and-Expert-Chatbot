@@ -26,34 +26,34 @@
 
     <!-- Influencer Grid -->
     <div class="row">
-      
+    @forelse ($influencers as $influencer) 
         <div class="col-md-4 col-lg-3 mb-4">
             <div class="card influencer-card h-100">
                 <div class="card-body text-center">
-                   
-                        <img src=" "  class="rounded-circle mb-3" width="100" height="100" style="object-fit: cover;">
-                    
+                   @if ($influencer->avatar) 
+                        <img src="{{ asset($influencer->avatar) }}"  class="rounded-circle mb-3" width="100" height="100" style="object-fit: cover;">
+                    @else 
                         <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 100px; height: 100px; font-size: 2.5rem;">
-                          name
+                         {{ substr($influencer->name, 0,1) }}
                         </div>
-                   
+                    @endif
 
-                    <h5 class="card-title mb-2">name</h5>
+                    <h5 class="card-title mb-2">{{$influencer->name}}</h5>
 
                   
-                        <span class="badge bg-info mb-2">niche</span>
+           <span class="badge bg-info mb-2">{{  $influencer->niche }}  </span>
                    
 
-                    <p class="text-muted small mb-3">bio</p>
+                    <p class="text-muted small mb-3">{{ Str::limit($influencer->bio, 80) }}</p>
 
                     <div class="d-flex justify-content-around text-muted small mb-3">
                         <div>
                             <i class="mdi mdi-message"></i>
-                            <span>  chats</span>
+                            <span> {{ $influencer->chat_count }}  chats</span>
                         </div>
                         <div>
                             <i class="mdi mdi-database"></i>
-                            <span> sources</span>
+                            <span>{{ $influencer->influencerData->count() }} sources</span>
                         </div>
                     </div>
 
@@ -63,13 +63,13 @@
                 </div>
             </div>
         </div>
-       
+       @empty 
         <div class="col-12">
             <div class="alert alert-warning text-center">
                 <i class="mdi mdi-information"></i> No influencers available at the moment. Please check back later!
             </div>
         </div>
-         
+     @endforelse   
     </div>
 
 </div>
