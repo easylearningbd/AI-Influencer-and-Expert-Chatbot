@@ -160,7 +160,7 @@
             </div>
 
             <!-- item-->
-            <a href="{{ route('admin.profile') }}" class="dropdown-item">
+            <a href="{{ route('user.profile') }}" class="dropdown-item">
                 <i class="ri-account-circle-line me-1 fs-16 align-middle"></i>
                 <span class="align-middle">My Account</span>
             </a>
@@ -192,7 +192,7 @@
             </a>
 
             <!-- item-->
-            <a href="{{ route('admin.logout') }}" class="dropdown-item active fw-semibold text-danger">
+            <a href="{{ route('user.logout') }}" class="dropdown-item active fw-semibold text-danger">
                 <i class="ri-logout-box-line me-1 fs-16 align-middle"></i>
                 <span class="align-middle">Sign Out</span>
             </a>
