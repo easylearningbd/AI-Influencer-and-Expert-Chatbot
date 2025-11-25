@@ -39,7 +39,7 @@ return [
         'api_key' => env('OPENAI_API_KEY'),
         'model' => env('OPENAI_MODEL','gpt-4-turbo-preview'), 
     ],
-
+ 
      'youtube' => [
         'api_key' => env('YOUTUBE_API_KEY'), 
     ], 
