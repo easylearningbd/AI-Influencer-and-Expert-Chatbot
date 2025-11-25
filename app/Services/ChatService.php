@@ -31,8 +31,6 @@ class ChatService
     }
     /// End chat Method 
 
-    
-
 
 
 
