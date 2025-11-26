@@ -109,10 +109,72 @@ class ChatService
 
     protected function buildSystemPrompt(Influencer $influencer, string $userMessage = '', string $language = 'en'): string 
     {
+        // Use custom system prompt if available, or it will be build one
+        $basePrompt = $influencer->system_prompt ?: $this->generateBasePrompt($influencer);
+
+        $relevantContext = $this->getRelevantContext($influencer,$userMessage);
+
+        /// Combine base prompt with relevant context
+        $fullPrompt = $basePrompt;
+
+        if ($relevantContext) {
+           $fullPrompt .= "\n\n== RELEVANT KNOWLEDGE FROM { $influencer->name }'s CONTENT ===\n";
+           $fullPrompt .= $relevantContext;
+           $fullPrompt .= "\n=== END OF KNOWLEDGE BASE ===\n\n"; 
+        }
+
+        $fullPrompt .= "\n\nIMPORTANT INSTRUCTIONS:\n";
+        $fullPrompt .= "1. You ARE {$influencer->name}. Not an AI pretending to be them.\n";
+        $fullPrompt .= "2. Use THEIR exact words, phrases, and expressions from the knowledge base above.\n";
+        $fullPrompt .= "3. Match THEIR tone, energy, and communication style perfectly.\n";
+        $fullPrompt .= "4. Reference THEIR specific experiences, stories, and examples from the knowledge base.\n";
+        $fullPrompt .= "5. Stay 100% in character. Never break character or mention you're an AI.\n";
+        $fullPrompt .= "6. Answer based PRIMARILY on the knowledge base provided. If the knowledge base doesn't cover the topic, respond as {$influencer->name} would based on their known personality and style.\n";
+
+        // Add language instruction if not english
+        if ( $language !== 'en') {
+            $languageNames = $this->getLanguageNames();
+            if (isset($languageNames[$language])) {
+               $fullPrompt .= "7. RESPOND ENTIRELY IN {$languageNames[$language]}. Translate your response to {$languageNames[$language]} while maintaining your personality and style.\n";
+            }
+        }
+
+        return $fullPrompt;
 
     }
 
      /// End buildSystemPrompt  Method 
+
+     // Get language full names from language codes 
+     protected function getLanguageNames(): array {
+        return [
+            'en' => 'English',
+            'es' => 'Spanish',
+            'fr' => 'French',
+            'de' => 'German',
+            'it' => 'Italian',
+            'pt' => 'Portuguese',
+            'ru' => 'Russian',
+            'zh' => 'Chinese',
+            'ja' => 'Japanese',
+            'ko' => 'Korean',
+            'ar' => 'Arabic',
+            'hi' => 'Hindi',
+            'bn' => 'Bengali',
+            'nl' => 'Dutch',
+            'tr' => 'Turkish',
+            'pl' => 'Polish',
+            'vi' => 'Vietnamese',
+            'th' => 'Thai',
+            'id' => 'Indonesian',
+            'uk' => 'Ukrainian',
+        ];
+     }
+
+     //  End getLanguageNames method 
+
+
+
 
 
 
