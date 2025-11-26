@@ -28,6 +28,40 @@ class ChatService
 
     public function chat(User $user, Influencer $influencer, string $message, ?string $sessionId = null, string $language = 'en'): array {
 
+        // Check if user has enough tokens 
+        $tokensRequired = (int) env('CHAT_TOKENS_PER_MESSAGE',5);
+
+        if (!$user->hasEnoughTokens($tokensRequired)) {
+            throw new \Exception('Insufficient tokens. please purchase more tokens to continue chatting');
+        }
+
+        // Get conversation history for context
+        $conversationHistory = $this->getConversationHistory($user,$influencer,$sessionId);
+
+        $systemPrompt = $this->buildSystemPrompt($influencer,$message,$language);
+
+        /// Messages for GPT 
+        $messages = [
+            ['role' => 'system', 'content' => $systemPrompt]
+        ];
+
+        // add conversation history 
+        foreach($conversationHistory as $chat){
+            $messages[] = ['role' => 'user', 'content' => $chat->message];
+            $messages[] = ['role' => 'assistant', 'content' => $chat->response];
+        }
+
+        // add current message 
+
+        $messages[] = ['role' => 'user', 'content' => $message];
+
+        try {
+            //code...
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+
     }
     /// End chat Method 
 
