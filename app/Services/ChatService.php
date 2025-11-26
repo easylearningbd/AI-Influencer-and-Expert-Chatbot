@@ -307,6 +307,82 @@ class ChatService
     } 
        //  End calculateRelevanceScore method 
 
+    //Get training context from influencer data
+    protected function getTrainingContext(Influencer $influencer, int $maxLength = null): string
+    {
+        $maxLength = $maxLength ?? (int) env('CHAT_MAX_CONTEXT_LENGTH', 4000);
+
+        // Get all training content
+        $allContent = $influencer->getAllTrainingContent();
+
+        // Truncate if too long (to fit within token limits)
+        if (strlen($allContent) > $maxLength) {
+            $allContent = substr($allContent, 0, $maxLength) . '...';
+        }
+
+        return $allContent;
+    }
+
+      //  End getTrainingContext method 
+
+   //  Get conversation history for context
+    protected function getConversationHistory(User $user, Influencer $influencer, ?string $sessionId = null): \Illuminate\Database\Eloquent\Collection 
+    {
+        $query = Chat::where('user_id', $user->id)
+            ->where('influencer_id', $influencer->id);
+
+        if ($sessionId) {
+            $query->where('session_id', $sessionId);
+        }
+
+        return $query->latest()
+            ->limit(10)
+            ->get()
+            ->reverse();
+    }
+
+     //  End getConversationHistory method 
+
+     // Get chat history for a user and influencer
+    public function getChatHistory(User $user, Influencer $influencer, ?string $sessionId = null, int $limit = 50)
+    {
+        $query = Chat::where('user_id', $user->id)
+            ->where('influencer_id', $influencer->id);
+
+        if ($sessionId) {
+            $query->where('session_id', $sessionId);
+        }
+
+        return $query->latest()
+            ->limit($limit)
+            ->get()
+            ->reverse();
+    }
+
+     //  End getChatHistory method 
+
+     // Get all chat sessions for a user and influencer
+    public function getChatSessions(User $user, Influencer $influencer)
+    {
+        $sessions = Chat::where('user_id', $user->id)
+            ->where('influencer_id', $influencer->id)
+            ->select('session_id', \DB::raw('MIN(created_at) as started_at'), \DB::raw('MAX(created_at) as last_message_at'), \DB::raw('COUNT(*) as message_count'))
+            ->groupBy('session_id')
+            ->orderBy('last_message_at', 'desc')
+            ->get();
+
+        // Convert string dates to Carbon instances
+        $sessions->transform(function ($session) {
+            $session->started_at = \Carbon\Carbon::parse($session->started_at);
+            $session->last_message_at = \Carbon\Carbon::parse($session->last_message_at);
+            return $session;
+        });
+
+        return $sessions;
+    }
+      //  End getChatSessions method 
+
+
 
 
 
