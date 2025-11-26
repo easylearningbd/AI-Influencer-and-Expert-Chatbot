@@ -257,6 +257,57 @@ class ChatService
       }
         //  End getRelevantContext method 
 
+        // Extract important keywords from user message
+    protected function extractKeywords(string $text): array
+    {
+        // Convert to lowercase and remove punctuation
+        $text = strtolower(preg_replace('/[^\w\s]/', ' ', $text));
+
+        // Common stop words to filter out
+        $stopWords = ['the', 'is', 'at', 'which', 'on', 'a', 'an', 'and', 'or', 'but', 'in', 'with', 'to', 'for', 'of', 'as', 'by', 'from', 'be', 'are', 'was', 'were', 'been', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'should', 'could', 'can', 'may', 'might', 'must', 'i', 'you', 'he', 'she', 'it', 'we', 'they', 'what', 'who', 'when', 'where', 'why', 'how'];
+
+        // Split into words
+        $words = preg_split('/\s+/', $text);
+
+        // Filter out stop words and short words
+        $keywords = array_filter($words, function ($word) use ($stopWords) {
+            return !in_array($word, $stopWords) && strlen($word) > 2;
+        });
+
+        return array_values(array_unique($keywords));
+    }
+
+    //  End extractKeywords method 
+
+
+    // calculat relevance score between content and keywords
+    protected function calculateRelevanceScore(string $content, array $keywords): int {
+
+        $contentLower = strtolower($content);
+        $score = 0;
+
+        foreach($keywords as $keyword){
+            // count exact word matches 
+            $exactMatches = substr_count($contentLower, ' ' . $keyword . ' ');
+            $score += $exactMatches  * 10;
+
+            // Count partial matches 
+            $partialMatches = substr_count($contentLower, $keyword);
+            $score += $partialMatches * 3; 
+
+        }
+
+        $keywordString = implode('|',$keyword);
+        if (preg_match_all("/$keywordString/i", $content) > count($keywords)) {
+             $score += 20;
+        }
+
+        return $score;
+
+    } 
+       //  End calculateRelevanceScore method 
+
+
 
 
 
