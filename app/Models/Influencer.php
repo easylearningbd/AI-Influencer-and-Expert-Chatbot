@@ -40,7 +40,7 @@ class Influencer extends Model
         return $this->InfluencerData()
             ->pluck('content')
             ->implode("\n\n");
-   }
+   } 
 
    /// Helper Method to increment chat count 
    public function incrementChatCount(): void {
