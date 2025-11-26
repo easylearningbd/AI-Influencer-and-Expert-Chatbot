@@ -198,7 +198,61 @@ class ChatService
 
       protected function getRelevantContext(Influencer $influencer, string $userMessage): string {
 
-        
+        if (empty($userMessage)) {
+            // if no specific message, retun a general overview 
+            return $this->getTrainingContext($influencer,2000);
+        }
+
+        // get all training data from chunks
+        $trainingData = $influencer->influencerData()->get();
+
+        if ($trainingData->isEmpty()) {
+            return '';
+        }
+
+        // Keyword based relevence scroing 
+        $userKeyword = $this->extractkeywords($userMessage);
+        $rankedChunks = [];
+
+        foreach($trainingData as $data){
+            $content = $data->content;
+            $relevantScore = $this->calculateRelevanceScore($content,$userKeyword);
+
+            if ($relevantScore > 0) {
+                $rankedChunks[] = [
+                    'content' => $content,
+                    'score' => $relevantScore ,
+                    'type' => $data->type,
+                ];
+            }
+        }
+
+        // sort by relevance score 
+        usort($rankedChunks, function ($a, $b){
+            return $b['score'] <=> $a['score'];
+        });
+
+        /// take top 3 most releavent chunks 
+        $maxLength = (int) env('CHAT_MAX_CONTEXT_LENGTH',4000);
+        $relevantContext = '';
+        $currentLength = 0;
+
+        foreach(array_slice($rankedChunks,0 ,3) as $chunk){
+            $chunkLength = strlen($chunk['content']);
+
+            if ($currentLength + $chunkLength > $maxLength) {
+                $remainingSpace = $maxLength - $currentLength;
+                if($remainingSpace > 200){
+                    $relevantContext .= substr($chunk['content'], 0, $remainingSpace) . "...\n\n";
+                }
+                break;
+            }
+
+            $relevantContext .= $chunk['content'] . "\n\n";
+            $currentLength += $chunkLength + 2;
+
+        }
+        return trim($relevantContext); 
 
       }
         //  End getRelevantContext method 
