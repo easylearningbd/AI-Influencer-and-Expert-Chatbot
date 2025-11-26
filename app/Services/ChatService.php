@@ -173,6 +173,36 @@ class ChatService
 
      //  End getLanguageNames method 
 
+     /// Generate base prompt for influencer 
+     protected function generateBasePrompt(Influencer $influencer): string {
+
+        $prompt = "You are {$influencer->name}";
+
+        if ($influencer->niche) {
+            $prompt .= ", a leading expert in {$influencer->niche}";
+        }
+        $prompt .= "\n\n";
+
+        if ($influencer->bio) {
+            $prompt .= "=== YOUR BACKGROUND ===\n{$influencer->bio}\n\n";
+        }
+        if ($influencer->style) {
+            $prompt .= "=== YOUR COMMUNICATION STYLE ===\n{$influencer->style}\n\n";
+        }
+
+        return $prompt;
+
+     }
+      //  End generateBasePrompt method 
+
+
+      protected function getRelevantContext(Influencer $influencer, string $userMessage): string {
+
+        
+
+      }
+        //  End getRelevantContext method 
+
 
 
 
