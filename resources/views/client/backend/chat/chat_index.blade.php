@@ -57,7 +57,7 @@
                         </div>
                     </div>
 
-                    <a href=" " class="btn btn-primary w-100">
+                    <a href="{{ route('user.chat.new-session',$influencer->id) }}" class="btn btn-primary w-100">
                         <i class="mdi mdi-chat"></i> Start Chat
                     </a>
                 </div>

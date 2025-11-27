@@ -37,6 +37,8 @@ Route::controller(ChatController::class)->group(function(){
 
 Route::get('/user/chat/index', 'UserChatIndex')->name('user.chat.index');
  
+Route::get('/chat/{influencer:slug}/new-session', 'NewSession')->name('user.chat.new-session');
+Route::get('/chat/{influencer:slug}', 'ChatShow')->name('user.chat.show');
 
 });
 
