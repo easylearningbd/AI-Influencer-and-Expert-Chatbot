@@ -46,6 +46,24 @@ class ChatController extends Controller
 
     public function ChatShow(Influencer $influencer){
 
+        if (!$influencer->is_active) {
+            abort(404,'This influencer is not available for chat.');
+        }
+
+        $user = Auth::user();
+
+        // Get chat sessions 
+        $sessions = $this->chatService->getChatSessions($user,$influencer);
+
+        $sessionId = request('session_id',null);
+
+        // Get chat history for this session 
+        $chatHistory = [];
+        if ($sessionId) {
+           $chatHistory = $this->chatService->getChatHistory($user,$influencer,$sessionId);
+        }
+
+        return view('client.backend.chat.chat_show',compact('influencer','sessions','chatHistory','sessionId'));
     }
     // End Method 
 
