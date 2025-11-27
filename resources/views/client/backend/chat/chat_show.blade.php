@@ -94,13 +94,14 @@
             <!-- Chat Messages -->
     <div id="chat-messages" class="flex-grow-1 p-3" style="overflow-y: auto; background-color: #f8f9fa;">
     
-            
+        @if ($sessionId && count($chatHistory) > 0) 
+            @foreach ($chatHistory as $chat) 
             <!-- User Message -->
             <div class="d-flex justify-content-end mb-3">
                 <div class="bg-primary text-white rounded p-2 px-3" style="max-width: 70%;">
-                    message
+                    {{  $chat->message  }}
                     <div class="text-end">
-                        <small style="opacity: 0.8;">created_at</small>
+                        <small style="opacity: 0.8;">{{ $chat->created_at->format('g:i A') }}</small>
                     </div>
                 </div>
             </div>
@@ -108,45 +109,46 @@
             <!-- AI Response -->
             <div class="d-flex justify-content-start mb-3">
                 <div>
-                    
-                        <img src=" " alt=" " class="rounded-circle me-2" width="40" height="40">
-                    
-                        <div class="bg-secondary text-white rounded-circle d-inline-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px;">
-                            dd
-                        </div>
-                    
+               @if ($influencer->avatar) 
+                <img src="{{ asset($influencer->avatar) }}" alt=" " class="rounded-circle me-2" width="40" height="40">
+               @else 
+                <div class="bg-secondary text-white rounded-circle d-inline-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px;">
+                  {{ substr($influencer->name, 0,1) }}
+                </div>
+                @endif        
                 </div>
                 <div class="bg-white rounded p-2 px-3 border" style="max-width: 70%;">
                     
-                        <p class="mb-2 small text-muted">Here's the image you requested!</p>
-                        <img src=" " alt="Generated image" class="img-fluid rounded" style="max-width: 100%; cursor: pointer;" onclick="window.open('', '_blank')">
+                        {{-- <p class="mb-2 small text-muted">Here's the image you requested!</p>
+                        <img src=" " alt="Generated image" class="img-fluid rounded" style="max-width: 100%; cursor: pointer;" onclick="window.open('', '_blank')"> --}}
                     
-                        response
+                        {{ $chat->response }}
                     
                     <div class="text-end  ">
-                        created_at
+                         {{ $chat->created_at->format('g:i A') }}
                     </div>
                 </div>
             </div>
-            
+        @endforeach
+        @else 
             <div class="text-center text-muted mt-5">
                 <i class="mdi mdi-chat-outline" style="font-size: 4rem;"></i>
                 <p>Start a conversation with name</p>
                 <p class="small">They'll respond in their authentic style based on their training data.</p>
             </div>
-        
+       @endif   
 
         <!-- Typing Indicator -->
         <div id="typing-indicator" class="d-none mb-3">
             <div class="d-flex justify-content-start">
                 <div>
-                    
-                        <img src=" " alt=" " class="rounded-circle me-2" width="40" height="40">
-                    
+                    @if ($influencer->avatar) 
+                        <img src="{{ asset($influencer->avatar) }}" alt=" " class="rounded-circle me-2" width="40" height="40">
+                    @else
                         <div class="bg-secondary text-white rounded-circle d-inline-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px;">
-                            4
+                         {{ substr($influencer->name, 0 ,1) }}
                         </div>
-                    
+                    @endif
                 </div>
                 <div class="bg-white rounded p-2 px-3 border">
                     <div class="typing-dots">
@@ -163,7 +165,7 @@
   <div class="border-top p-3 bg-white">
 <form id="chat-form">
     @csrf
-    <input type="hidden" id="session-id" value=" ">
+    <input type="hidden" id="session-id" value="{{ $sessionId }}">
 
     <!-- Language Selector -->
     <div class="mb-2">
@@ -208,7 +210,7 @@
     <div id="error-message" class="text-danger small mt-2 d-none"></div>
     <small class="text-muted d-block mt-1">
         
-        <i class="mdi mdi-lightbulb-outline"></i> Tip: Click the image icon to request a photo/selfie (10 tokens). Example: "Send me a photo of you at the beach"
+        {{-- <i class="mdi mdi-lightbulb-outline"></i> Tip: Click the image icon to request a photo/selfie (10 tokens). Example: "Send me a photo of you at the beach" --}}
         
     </small>
 </form>
