@@ -40,6 +40,10 @@ Route::get('/user/chat/index', 'UserChatIndex')->name('user.chat.index');
 Route::get('/chat/{influencer:slug}/new-session', 'NewSession')->name('user.chat.new-session');
 Route::get('/chat/{influencer:slug}', 'ChatShow')->name('user.chat.show');
 
+
+Route::post('/chat/{influencer:slug}/send', 'ChatSend')->name('user.chat.send');
+
+
 });
 
 

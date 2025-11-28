@@ -318,7 +318,7 @@ document.addEventListener('DOMContentLoaded', function(){
         try {
 
             // Send message to serve 
-            const response = await fetch('{{ route('user.chat.send',$influencer->slug) }}', {
+            const response = await fetch('{{ route("user.chat.send",$influencer->slug) }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

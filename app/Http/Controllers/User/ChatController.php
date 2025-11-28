@@ -67,6 +67,45 @@ class ChatController extends Controller
     }
     // End Method 
 
+    public function ChatSend(Request $request, Influencer $influencer){
+
+        $request->validate([
+            'message' => 'required|string',
+            'session_id' => 'nullable|string',
+            'language' => 'nullable|string',
+        ]);
+
+        if (!$influencer->is_active) {
+            return response()->json([
+                'success' => false,
+                'error' => 'This influencer is not avaiable for chat'
+            ],404);
+        }
+
+        try {
+            $user = Auth::user();
+
+            $result = $this->chatService->chat(
+                $user,
+                $influencer,
+                $request->message,
+                $request->session_id,
+                $request->input('language','en') 
+            );
+
+            return response()->json($result);
+
+
+        } catch (\Exception $e) {
+           return response()->json([
+            'success' =>  false,
+            'error' => $e->getMessage()
+           ],400);
+        }
+
+    }
+     // End Method 
+
 
 
 } 
