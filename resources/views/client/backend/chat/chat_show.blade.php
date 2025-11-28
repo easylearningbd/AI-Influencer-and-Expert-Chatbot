@@ -11,7 +11,7 @@
     </div>
     <div>
         <span class="badge bg-info me-2">
-            <i class="mdi mdi-wallet"></i> {{ auth()->user()->token_balance }} tokens
+            <i class="ri-wallet-3-line"></i> {{ auth()->user()->token_balance }} tokens
         </span>
         @if ($sessionId && count($chatHistory) > 0) 
         <div class="btn-group me-2" role="group">
@@ -410,11 +410,27 @@ document.addEventListener('DOMContentLoaded', function(){
     }
     // End addAIResponse Method 
 
+  function updateTokenBlance(balance){
+    const tokenBadges = document.querySelectorAll('.badge.bg-info');
+    tokenBadges.forEach(badge => {
+        if (badge.textContent.includes('tokens')) {
+            badge.innerHTML = ` <i class="ri-wallet-3-line"></i> ${balance} tokens`;
+        }
+    });
+
+  }
+   // End updateTokenBlance Method 
+
+   function escapeHtml(text){
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+   }
+    // End escapeHtml Method 
 
 
 
-
-})
+});
 
 
 
