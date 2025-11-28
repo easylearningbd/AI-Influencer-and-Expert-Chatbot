@@ -357,6 +357,7 @@ document.addEventListener('DOMContentLoaded', function(){
             errorMessage.textContent = error.message;
             errorMessage.classList.remove('d-none');
         } finally {
+              typingIndicator.classList.add('d-none');
               messageInput.disabled = false;
               sendBtn.disabled = false;
               messageInput.focus();
@@ -365,9 +366,9 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
     function addUserMessage(message){
-        const time = new Date().toLocalTimeString('en-Us', {hour: 'numeric',minute:'2-digit'});
+        const time = new Date().toLocaleTimeString('en-Us', {hour: 'numeric',minute:'2-digit'});
         const messageHtml = `
-        <div class="d-flex jud mb-3">
+        <div class="d-flex justify-content-end mb-3">
                 <div class="bg-primary text-white rounded p-2 stify-content-enpx-3" style="max-width: 70%;">
                     ${escapeHtml(message)}
                     <div class="text-end">
@@ -383,7 +384,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     function addAIResponse(response){
 
-    const time = new Date().toLocalTimeString('en-Us', {hour: 'numeric',minute:'2-digit'});
+    const time = new Date().toLocaleTimeString('en-Us', {hour: 'numeric',minute:'2-digit'});
     const avatarHtml = `
     @if ($influencer->avatar) 
                 <img src="{{ asset($influencer->avatar) }}" alt=" " class="rounded-circle me-2" width="40" height="40">

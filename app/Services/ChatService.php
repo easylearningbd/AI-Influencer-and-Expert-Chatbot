@@ -297,7 +297,7 @@ class ChatService
 
         }
 
-        $keywordString = implode('|',$keyword);
+        $keywordString = implode('|',$keywords);
         if (preg_match_all("/$keywordString/i", $content) > count($keywords)) {
              $score += 20;
         }
