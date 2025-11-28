@@ -364,6 +364,52 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 
 
+    function addUserMessage(message){
+        const time = new Date().toLocalTimeString('en-Us', {hour: 'numeric',minute:'2-digit'});
+        const messageHtml = `
+        <div class="d-flex jud mb-3">
+                <div class="bg-primary text-white rounded p-2 stify-content-enpx-3" style="max-width: 70%;">
+                    ${escapeHtml(message)}
+                    <div class="text-end">
+                        <small style="opacity: 0.8;">${time}</small>
+                    </div>
+                </div>
+            </div> 
+        `; 
+        chatMessages.insertAdjacentHTML('beforeend',messageHtml);
+        scrollToBottom();
+    }
+    // End addUserMessage Method 
+
+    function addAIResponse(response){
+
+    const time = new Date().toLocalTimeString('en-Us', {hour: 'numeric',minute:'2-digit'});
+    const avatarHtml = `
+    @if ($influencer->avatar) 
+                <img src="{{ asset($influencer->avatar) }}" alt=" " class="rounded-circle me-2" width="40" height="40">
+               @else 
+                <div class="bg-secondary text-white rounded-circle d-inline-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px;">
+                  {{ substr($influencer->name, 0,1) }}
+                </div>
+                @endif  
+            `;
+
+        const messageHtml = `
+            <div class="d-flex justify-content-start mb-3">
+                <div> ${avatarHtml} </div>
+                <div class="bg-white rounded p-2 px-3 border" style="max-width:70%">
+                    ${escapeHtml(response)}
+                    <div class="text-end">
+                        <small class="text-muted">${time}</small>
+                        </div>
+                    </div>
+                </div>
+        `;
+        chatMessages.insertAdjacentHTML('beforeend',messageHtml);
+        scrollToBottom();
+    }
+    // End addAIResponse Method 
+
 
 
 
