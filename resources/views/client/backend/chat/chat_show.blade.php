@@ -315,8 +315,7 @@ document.addEventListener('DOMContentLoaded', function(){
         scrollToBottom();
 
 
-        try {
-
+        try { 
             // Send message to serve 
             const response = await fetch('{{ route("user.chat.send",$influencer->slug) }}', {
                 method: 'POST',
@@ -334,14 +333,34 @@ document.addEventListener('DOMContentLoaded', function(){
             const data = await response.json();
 
             if (data.success) {
-                
-            }
-            
+                // Update session Id 
+                if (data.session_id) {
+                    sessionId = data.session_id;
+                    document.getElementById('session-id').value = sessionId;
+
+                    /// Update URL Without reload 
+                    const newUrl = '{{ route("user.chat.show",$influencer->slug) }}?session_id=' + sessionId;
+                    window.history.pushState({},'',newUrl)
+                }
+
+                /// Add AI Response 
+                addAIResponse(data.response);
+
+                // Update token blanace 
+                updateTokenBlance(data.tokens_remaining); 
+
+            } else {
+                throw new Error(data.error || 'Failed to send message');
+            }            
         } catch (error) {
-            
-        }
-
-
+            console.error('Error',error);
+            errorMessage.textContent = error.message;
+            errorMessage.classList.remove('d-none');
+        } finally {
+              messageInput.disabled = false;
+              sendBtn.disabled = false;
+              messageInput.focus();
+        } 
     });
 
 
