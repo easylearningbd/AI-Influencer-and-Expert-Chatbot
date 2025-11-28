@@ -275,5 +275,37 @@
 }
 </style>
 
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    const chatForm = document.getElementById('chat-form');
+    const messageInput = document.getElementById('message-input');
+    const sendBtn = document.getElementById('send-btn');
+    const chatMessages = document.getElementById('chat-messages');
+    const typingIndicator = document.getElementById('typing-indicator');
+    const errorMessage = document.getElementById('error-message');
+    const languageSelect = document.getElementById('language-select');
+    let sessionId = document.getElementById('session-id').value;
+
+
+    // Scroll to bottom of chat 
+    function scrollToBottom(){
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    // Initial scroll 
+    scrollToBottom();
+
+    // Handle from submission 
+    
+
+
+
+
+
+})
+
+
+
+</script>
+
  
 @endsection
