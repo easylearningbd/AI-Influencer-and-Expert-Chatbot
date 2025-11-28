@@ -295,7 +295,55 @@ document.addEventListener('DOMContentLoaded', function(){
     scrollToBottom();
 
     // Handle from submission 
-    
+    chatForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const message = messageInput.value.trim();
+        if (!message) return;  
+
+        // Disable input filed 
+        messageInput.disabled = true;
+        sendBtn.disabled = true;
+        errorMessage.classList.add('d-none');
+
+        /// Add user message to chat 
+        addUserMessage(message);
+        messageInput.value = '';
+
+        /// Show typing indicator 
+        typingIndicator.classList.remove('d-none');
+        scrollToBottom();
+
+
+        try {
+
+            // Send message to serve 
+            const response = await fetch('{{ route('user.chat.send',$influencer->slug) }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('[name="_token"]').value
+                },
+                body: JSON.stringify({
+                    message: message,
+                    session_id: sessionId,
+                    language: languageSelect.value 
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                
+            }
+            
+        } catch (error) {
+            
+        }
+
+
+    });
+
 
 
 
