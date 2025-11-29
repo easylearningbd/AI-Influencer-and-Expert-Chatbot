@@ -151,7 +151,7 @@ class ChatController extends Controller
             // Generate text file
             $content = "Chat with {$influencer->name}\n";
             $content .= "Session Id {$sessionId}\n";
-            $content .= "Exported: " . now()->formart('M d, Y H:i') . "\n";
+            $content .= "Exported: " . now()->format('M d, Y H:i') . "\n";
             $content .= str_repeat('=',50) . "\n\n";
 
             foreach($chatHistory as $chat){
