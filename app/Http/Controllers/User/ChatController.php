@@ -109,6 +109,48 @@ class ChatController extends Controller
 
      public function ChatExport(Request $request,Influencer $influencer, string $sessionId ){
 
+        $request->validate([
+            'format' => 'required|in:pdf,txt',
+        ]);
+
+        $user = Auth::user();
+        $tokensRequired = 5;
+
+        // Check if user has enough tokens or not 
+        if (!$user->hasEnoughTokens($tokensRequired)) {
+           return back()->with([
+            'message' => 'Insufficient tokens. You need 5 tokens to exprot a chat. Plz purchase more tokens',
+            'alert-type' => 'error'
+           ]);
+        }
+
+        // Get chat history 
+        $chatHistory = $this->chatService->getChatHistory($user,$influencer,$sessionId);
+
+        if (empty($chatHistory)) {
+           return back()->with([
+            'message' => 'No chat history found for this session',
+            'alert-type' => 'error'
+           ]);
+        }
+
+        $user->deductTokens($tokensRequired);
+        $format = $request->format;
+        $fileName = 'chat_' . $influencer->slug . '_' . date('Y-m-d_His');
+
+        if ($format === 'pdf') {
+            // Generate PDF 
+            $pdf = Pdf::loadView('client.backend.chat.export-pdf', [
+                'influencer' => $influencer,
+                'chatHistory' => $chatHistory,
+                'sessionId' => $sessionId,
+                'exportDate' => now()->format('M d, Y H:i')
+            ]);
+            return $pdf->download($fileName . '.pdf');
+        } else {
+            
+        }
+
 
      }
       // End Method 
