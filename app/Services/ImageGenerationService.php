@@ -36,17 +36,37 @@ class ImageGenerationService
                 'quality' => 'standard',
                 'response_format' => 'url'
             ]);
-            
-            
 
-        } catch (\Throwable $th) {
-            //throw $th;
+        if (!$response->successful()) {
+           throw new \Exception('Failed to generate image: ' . $response->body());
         }
 
+        $data = $response->json();
+        $imageUrl = $data['data'][0]['url'] ?? null;
 
+        if (!$imageUrl) {
+           throw new \Exception('No image URL returned form API');
+        }
+
+        // DOWNLOAD AND STORE THE IMAGE
+        $storedPath = $this->downloadAndStoreImage($imageUrl,$influencer);
+
+        return [
+            'success' => true,
+            'image_url' => $imageUrl,
+            'stored_path' => $storedPath,
+            'prompt_used' => $prompt
+        ];         
+            
+
+        } catch (\Exception $e) {
+           return [
+            'success' => false,
+            'error' => $e->getMessage(),
+           ];
+        }
     }
     /// End generateImage Method 
-
     
 
 
