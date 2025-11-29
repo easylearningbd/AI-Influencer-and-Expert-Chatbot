@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Influencer;
 use Illuminate\Support\Str;
 use App\Services\ChatService;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ChatController extends Controller
 {
@@ -105,6 +106,12 @@ class ChatController extends Controller
 
     }
      // End Method 
+
+     public function ChatExport(Request $request,Influencer $influencer, string $sessionId ){
+
+
+     }
+      // End Method 
 
 
 

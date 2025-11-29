@@ -20,12 +20,12 @@
             </button>
             <ul class="dropdown-menu">
                 <li>
-                    <a class="dropdown-item" href=" ">
+                    <a class="dropdown-item" href="{{ route('user.chat.export',['influencer' => $influencer->slug, 'sessionId' => $sessionId, 'format' => 'pdf' ]) }}">
                         <i class="mdi mdi-file-pdf-box"></i> Export as PDF
                     </a>
                 </li>
                 <li>
-                    <a class="dropdown-item" href=" ">
+                    <a class="dropdown-item" href="{{ route('user.chat.export',['influencer' => $influencer->slug, 'sessionId' => $sessionId, 'format' => 'txt' ]) }}">
                         <i class="mdi mdi-file-document-outline"></i> Export as Text
                     </a>
                 </li>

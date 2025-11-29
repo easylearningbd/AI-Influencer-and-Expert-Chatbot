@@ -43,6 +43,8 @@ Route::get('/chat/{influencer:slug}', 'ChatShow')->name('user.chat.show');
 
 Route::post('/chat/{influencer:slug}/send', 'ChatSend')->name('user.chat.send');
 
+Route::get('/chat/{influencer:slug}/{sessionId}/export', 'ChatExport')->name('user.chat.export');
+
 
 });
 
