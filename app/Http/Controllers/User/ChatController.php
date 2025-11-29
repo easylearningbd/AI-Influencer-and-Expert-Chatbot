@@ -148,9 +148,23 @@ class ChatController extends Controller
             ]);
             return $pdf->download($fileName . '.pdf');
         } else {
-            
-        }
+            // Generate text file
+            $content = "Chat with {$influencer->name}\n";
+            $content .= "Session Id {$sessionId}\n";
+            $content .= "Exported: " . now()->formart('M d, Y H:i') . "\n";
+            $content .= str_repeat('=',50) . "\n\n";
 
+            foreach($chatHistory as $chat){
+                $content .= " You: {$chat->message}\n";
+                $content .= "{$influencer->name}: {$chat->response}\n";
+                $content .= "Time : " . $chat->created_at->format('M d, Y H:i') . "\n";
+                $content .= str_repeat('-',50) . "\n\n";
+            }
+
+            return response($content, 200)
+                ->header('Content-Type', 'text/plain')
+                ->header('Content-Disposition', 'attachment; filename="' . $fileName . '.txt"');
+        }
 
      }
       // End Method 
