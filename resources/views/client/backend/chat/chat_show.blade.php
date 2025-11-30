@@ -438,6 +438,54 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
+    // Image Generation button handler 
+
+const imageRequestBtn = document.getElementById('image-request-btn');
+if (imageRequestBtn) {
+    imageRequestBtn.addEventListener('click', async function() {
+        const message = messageInput.value.trim();
+        if (!message) {
+            errorMessage.textContent = 'Please enter a description for the image you want';
+            errorMessage.classList.remove('d-none');
+            return;            
+        }
+
+         // Disable input filed 
+        imageRequestBtn.disabled = true;
+        sendBtn.disabled = true;
+        messageInput.disabled = true;
+        errorMessage.classList.add('d-none');
+
+        /// Add user message to chat 
+        addUserMessage(message);
+        const userRequest = message;
+        messageInput.value = '';
+
+        /// Show typing indicator 
+        typingIndicator.classList.remove('d-none');
+        const originalTypingHtml = typingIndicator.querySelector('.bg-white').innerHTML;
+        typingIndicator.querySelector('.bg-white').innerHTML = '<div class="text-muted"> Generating image... This may take up to 30 sec </div>';
+        scrollToBottom();
+
+        try {
+            
+        } catch (error) {
+            
+        }
+
+
+
+
+
+
+    });
+    
+}
+
+
+
+
+
 });
 
 
