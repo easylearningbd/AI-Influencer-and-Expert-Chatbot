@@ -102,6 +102,38 @@ class ImageGenerationService
 
         return $prompt;
     }
+
+    // Download image from url and store locally 
+    protected function downloadAndStoreImage(string $imageUrl, Influencer $influencer): string {
+
+        try {
+
+            // Download the image 
+            $imageContent = file_get_contents($imageUrl);
+
+            if ($imageContent === false) {
+                throw new \Exception('Failed to download image');
+            }
+
+            /// Generate unique file name 
+            $filename = 'influencer_' . $influencer->id . '_' . Str::random(10) . '_' . time() . '.png'; 
+            $path = 'influencer_image/' . $influencer->slug . '/' . $filename;
+
+            // Store in public disk 
+            Storage::disk('public')->put($path,$imageContent);
+
+            return $path;
+            
+            
+        } catch (\Exception $e) {
+           return $imageUrl;
+        }
+
+    }
+
+    ///// End downloadAndStoreImage Method 
+
+    
     
 
 
