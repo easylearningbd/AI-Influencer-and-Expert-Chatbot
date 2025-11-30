@@ -129,11 +129,11 @@
         <img src="{{ $imageUrl }}" alt="Generated image" class="img-fluid rounded" style="max-width: 100%; cursor: pointer;" onclick="window.open('{{ $imageUrl }}', '_blank')">
         @else 
               {{ $chat->response }}
-        @endif
-                    
-                    <div class="text-end  ">
-                         {{ $chat->created_at->format('g:i A') }}
-                    </div>
+        @endif     
+            <div class="text-end {{ str_starts_with($chat->response, '[Image Generated]') ? 'mt-2' : '' }} ">
+                <small class="text-muted">
+                    {{ $chat->created_at->format('g:i A') }}</small>
+            </div>
                 </div>
             </div>
         @endforeach
@@ -513,10 +513,35 @@ if (imageRequestBtn) {
  // Function to add image response to chat 
  function addImageResponse(imageUrl, message){
 
- }
+     const time = new Date().toLocaleTimeString('en-Us', {hour: 'numeric',minute:'2-digit'});
+    const avatarHtml = `
+    @if ($influencer->avatar) 
+                <img src="{{ asset($influencer->avatar) }}" alt=" " class="rounded-circle me-2" width="40" height="40">
+               @else 
+                <div class="bg-secondary text-white rounded-circle d-inline-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px;">
+                  {{ substr($influencer->name, 0,1) }}
+                </div>
+                @endif  
+            `;
 
+        const messageHtml = `
+            <div class="d-flex justify-content-start mb-3">
+                <div> ${avatarHtml} </div>
 
+        <div class="bg-white rounded p-2 px-3 border" style="max-width:70%"> 
 
+        <p class="mb-2 small text-muted">${escapeHtml(message)}</p>
+        <img src="${$imageUrl}" alt="Generated image" class="img-fluid rounded" style="max-width: 100%; cursor: pointer;" onclick="window.open('${$imageUrl}', '_blank')">
+        <div class="text-end mt-2">
+            <small class="text-muted">${time}</small>
+            </div> 
+                    </div>
+                </div>
+        `;
+        chatMessages.insertAdjacentHTML('beforeend',messageHtml);
+        scrollToBottom();
+
+ } 
 
 
 });

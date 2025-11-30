@@ -170,5 +170,16 @@ class ChatController extends Controller
       // End Method 
 
 
+    // Per generate image it should be cut as 10 tokens 
+
+    public function ChatGenerateImage(Request $request,Influencer $influencer ){
+
+
+
+        
+    }
+    // End Method 
+
+
 
 } 
