@@ -468,19 +468,52 @@ if (imageRequestBtn) {
         scrollToBottom();
 
         try {
-            
+
+            const response = await fetch('{{ route("user.chat.generate-image",$influencer->slug) }}',{
+                method: 'POST',
+                 headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('[name="_token"]').value
+                },
+                body: JSON.stringify({
+                    image_request: userRequest,
+                    session_id: sessionId, 
+                })
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                // Add generated image to the chat area 
+                addImageResponse(data.image_url, data.message);
+
+                /// Update token balance 
+                updateTokenBlance(data.tokens_remaining); 
+            } else {
+                throw new Error(data.error || 'Failed to generate image');
+            }  
         } catch (error) {
-            
-        }
+            console.error('Error:', error);
+            errorMessage.textContent = error.message;
+            errorMessage.classList.remove('d-none');
+        } finally {
+            // Restore typing indicator 
+            typingIndicator.querySelector('.bg-white').innerHTML = originalTypingHtml;
+            typingIndicator.classList.add('d-none');
 
-
-
-
-
+            imageRequestBtn.disabled = false;
+            sendBtn.disabled = false;
+            messageInput.disabled = false;
+           messageInput.focus();
+        } 
 
     });
     
 }
+
+ // Function to add image response to chat 
+ function addImageResponse(imageUrl, message){
+
+ }
 
 
 
