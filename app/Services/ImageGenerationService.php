@@ -133,7 +133,29 @@ class ImageGenerationService
 
     ///// End downloadAndStoreImage Method 
 
-    
+    // Get full URL For stored image 
+
+    public function getImageUrl(string $path): string {
+       
+        if (str_starts_with($path, 'http')) {
+            return $path;
+        }
+
+        return asset('storage/' . $path);
+    }
+
+    // Delete generated image 
+
+    public function deleteImage(string $path): bool {
+
+        if (str_starts_with($path, 'http')) {
+            return false;
+        }
+        return Storage::disk('public')->delete($path);
+
+    }
+
+
     
 
 

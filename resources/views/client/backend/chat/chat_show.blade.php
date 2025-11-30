@@ -118,11 +118,18 @@
                 @endif        
                 </div>
                 <div class="bg-white rounded p-2 px-3 border" style="max-width: 70%;">
+        @if (str_starts_with($chat->response, '[Image Generated]')) 
+
+        @php
+            $imagePath = trim(str_replace('[Image Generated]' , '', $chat->response ));
+            $imageUrl = str_starts_with($imagePath, 'http') ? $imagePath : asset('storage/' . $imagePath)
+        @endphp
                     
-                        {{-- <p class="mb-2 small text-muted">Here's the image you requested!</p>
-                        <img src=" " alt="Generated image" class="img-fluid rounded" style="max-width: 100%; cursor: pointer;" onclick="window.open('', '_blank')"> --}}
-                    
-                        {{ $chat->response }}
+        <p class="mb-2 small text-muted">Here's the image you requested!</p>
+        <img src="{{ $imageUrl }}" alt="Generated image" class="img-fluid rounded" style="max-width: 100%; cursor: pointer;" onclick="window.open('{{ $imageUrl }}', '_blank')">
+        @else 
+              {{ $chat->response }}
+        @endif
                     
                     <div class="text-end  ">
                          {{ $chat->created_at->format('g:i A') }}
