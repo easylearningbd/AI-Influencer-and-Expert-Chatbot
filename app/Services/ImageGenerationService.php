@@ -15,7 +15,7 @@ class ImageGenerationService
 
     public function __construct()
     {
-       $this->apiKey = confit('services.openai.api_key');
+       $this->apiKey = config('services.openai.api_key');
     }
 
     /// Generate an image using dall-e 3 based on influencer and user request

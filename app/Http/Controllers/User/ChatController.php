@@ -219,8 +219,8 @@ class ChatController extends Controller
     $imageUrl = $this->imageService->getImageUrl($result['stored_path']);
 
     // Store as a chat message 
-    $chat = $user->chats->create([
-        'user_id' => Auth::id(),
+    $chat = $user->chats()->create([
+        'user_id' => $user->id,
         'influencer_id' => $influencer->id, 
         'session_id' => $request->session_id, 
         'message' => $request->image_request, 

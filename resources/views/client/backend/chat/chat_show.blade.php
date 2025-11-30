@@ -531,7 +531,7 @@ if (imageRequestBtn) {
         <div class="bg-white rounded p-2 px-3 border" style="max-width:70%"> 
 
         <p class="mb-2 small text-muted">${escapeHtml(message)}</p>
-        <img src="${$imageUrl}" alt="Generated image" class="img-fluid rounded" style="max-width: 100%; cursor: pointer;" onclick="window.open('${$imageUrl}', '_blank')">
+        <img src="${imageUrl}" alt="Generated image" class="img-fluid rounded" style="max-width: 100%; cursor: pointer;" onclick="window.open('${imageUrl}', '_blank')">
         <div class="text-end mt-2">
             <small class="text-muted">${time}</small>
             </div> 
