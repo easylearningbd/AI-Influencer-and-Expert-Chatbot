@@ -8,16 +8,19 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Influencer;
 use Illuminate\Support\Str;
 use App\Services\ChatService;
+use App\Services\ImageGenerationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class ChatController extends Controller
 {
 
     protected $chatService;
+    protected $imageService;
 
-    public function __construct(ChatService $chatService, ){
+    public function __construct(ChatService $chatService,ImageGenerationService $imageService ){
 
         $this->chatService = $chatService;
+        $this->imageService = $imageService;
 
     }
 
@@ -174,9 +177,59 @@ class ChatController extends Controller
 
     public function ChatGenerateImage(Request $request,Influencer $influencer ){
 
+       $request->validate([
+            'image_request' => 'required|string',
+            'session_id' => 'required|string',
+        ]);
+
+        $user = Auth::user();
+        $tokensRequired = 10;
+
+        // Check if influencer can generate images
+        if (!$influencer->can_generate_image) {
+           return response()->json([
+            'success' => false,
+            'error' => 'This influencer does not support image generation', 
+           ],400);
+        }
+
+        // Check if user has enough tokens or not 
+        if (!$user->hasEnoughTokens($tokensRequired)) {
+           return response()->json([
+            'success' => false,
+            'error' => 'Insufficient tokens. You need 10 tokens to exprot a chat. Plz purchase more tokens', 
+           ],400);
+        }
+
+        try {
+            // Generate the image
+            $result =  $this->imageService->generateImage($influencer,$request->image_request);
+
+            if (!$result['success']) {
+                return response()->json([
+                    'success' => false,
+                    'error' => $result['error'] ?? 'Failed to generate image'
+                ],500);
+            }
+
+    // Deduct tokens after successfully generate 
+    $user->deductTokens($tokensRequired);
+
+    // Get Image URL 
+    $imageUrl = $this->imageService->getImageUrl($result['stored_path']);
+
+    // Store as a chat message 
 
 
-        
+
+
+           
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+
+
     }
     // End Method 
 
