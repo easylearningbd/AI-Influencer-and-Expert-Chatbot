@@ -219,17 +219,32 @@ class ChatController extends Controller
     $imageUrl = $this->imageService->getImageUrl($result['stored_path']);
 
     // Store as a chat message 
+    $chat = $user->chats->create([
+        'user_id' => Auth::id(),
+        'influencer_id' => $influencer->id, 
+        'session_id' => $request->session_id, 
+        'message' => $request->image_request, 
+        'response' => '[Image Generated] ' . $result['stored_path'] , 
+        'language' => 'en',
+    ]);
 
-
-
-
-           
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
-
-
-
+    return response()->json([
+        'success' => true,
+        'image_url' => $imageUrl,
+        'message' => 'Here your image requestd',
+        'stored_path' => $result['stored_path'],
+        'tokens_remaining' => $user->hasActiveSubscription()
+            ? $user->activeSubscription()->tokens_remaining
+            : $user->token_balance,
+        'chat_id' => $chat->id,
+    ]);
+ 
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'An error occureed while generating the image ' . $e->getMessage()
+            ],500);
+        } 
     }
     // End Method 
 
