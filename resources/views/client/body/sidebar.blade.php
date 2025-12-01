@@ -45,6 +45,18 @@
                 <span class="menu-text"> Chat With Influencers  </span>
             </a>
         </li>
+
+
+         <li class="side-nav-title mt-2">
+            Tokens & Payment
+        </li>
+
+        <li class="side-nav-item">
+            <a href="{{ route('user.plans') }}" class="side-nav-link">
+                <span class="menu-icon"><i class="ti ti-message"></i></span>
+                <span class="menu-text"> Buy Tokens   </span>
+            </a>
+        </li>
  
        
 

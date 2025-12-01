@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\InfluencerDataController;
 
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\ChatController;
+use App\Http\Controllers\User\PaymentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -49,6 +50,13 @@ Route::post('/chat/{influencer:slug}/generate-image', 'ChatGenerateImage')->name
 
 
 
+});
+
+
+Route::controller(PaymentController::class)->group(function(){
+
+Route::get('/user/plans', 'UserPlans')->name('user.plans');
+  
 });
 
 
