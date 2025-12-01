@@ -152,25 +152,26 @@
                 <td><i class="mdi mdi-message"></i> Per message</td>
                 <td class="text-end"><strong> 5 tokens</strong></td>
             </tr>
-            
+            @if ($activeSubscription) 
             <tr class="table-success">
                 <td><i class="mdi mdi-autorenew"></i> Subscription tokens</td>
-                <td class="text-end"><strong>tokens_remaining /monthly_tokens tokens</strong></td>
+                <td class="text-end"><strong>{{ $activeSubscription->tokens_remaining }} / {{ $activeSubscription->monthly_tokens }} tokens</strong></td>
             </tr>
             <tr>
                 <td><i class="mdi mdi-calendar"></i> Next reset</td>
-                <td class="text-end"><strong>current_period_end</strong></td>
+                <td class="text-end"><strong>{{ $activeSubscription->current_period_end->format('M d, Y') }}</strong></td>
             </tr>
             <tr>
                 <td><i class="mdi mdi-calculator"></i> Available messages</td>
-                <td class="text-end"><strong>~tokens_remaining messages</strong></td>
+                <td class="text-end"><strong>~{{ floor($activeSubscription->tokens_remaining / 5) }} messages</strong></td>
             </tr>
-            
+            @else 
             <tr class="table-warning">
                 <td colspan="2" class="text-center">
                     <i class="mdi mdi-alert"></i> No active subscription
                 </td>
             </tr>
+            @endif
             
         </tbody>
     </table>
