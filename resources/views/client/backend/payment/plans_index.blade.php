@@ -50,79 +50,81 @@
     </div>
 
     <div class="row">
-        
+    @forelse ($plans as $plan) 
+    @php
+        $isCurrentPlan = $activeSubscription && $activeSubscription->plan_id === $plan->id; 
+    @endphp
         <div class="col-md-4 col-lg-3 mb-4">
-            <div class="card h-100 border-success">
-               
+            <div class="card h-100 {{ $isCurrentPlan ? 'border-success' : ($plan->is_featured ? 'border-primary' : '') }}">
+    
+     @if ($isCurrentPlan) 
     <div class="card-header bg-success text-white text-center">
         <i class="mdi mdi-check-circle"></i> Your Current Plan
     </div>
-    
+    @elseif ($plan->is_featured)
     <div class="card-header bg-primary text-white text-center">
         <i class="mdi mdi-star"></i> Most Popular
     </div>
-    
+     @endif  
 
     <div class="card-body text-center">
-        <h5 class="card-title">name</h5>
+        <h5 class="card-title">{{ $plan->name }}</h5>
 
         <div class="my-4">
-            <h2 class="text-primary mb-0">$ price</h2>
-            
-                <small class="text-muted">/ type</small>
-            
+            <h2 class="text-primary mb-0">$ {{ number_format($plan->price, 2) }}</h2>
+            @if ($plan->type !== 'one-time') 
+                <small class="text-muted">/ {{ $plan->type }}</small>
+             @endif
         </div>
 
         <div class="mb-3">
             <span class="badge bg-success" style="font-size: 1.1rem; padding: 8px 16px;">
-                3 Tokens
+                {{ number_format($plan->tokens) }} Tokens
             </span>
         </div>
 
-        <div class="text-muted small mb-3">
-            price_per_token per token
-        </div>
-
-        
+    @if ($plan->features && count($plan->features) > 0) 
         <hr>
         <ul class="list-unstyled text-start">
-            
+            @foreach ($plan->features as $feature) 
             <li class="mb-2">
-                <i class="mdi mdi-check text-success"></i> feature
+                <i class="mdi mdi-check text-success"></i> {{ $feature }}
             </li>
-            
+            @endforeach
         </ul>
-                    
-
-                   
-     <p class="text-muted small mt-3">description</p>
-                    
+    @endif
+     
+    @if ($plan->description) 
+     <p class="text-muted small mt-3">{{ $plan->description }}</p>
+    @endif            
                 </div>
 
 <div class="card-footer bg-transparent">
-    
+
+    @if ($isCurrentPlan) 
         <button class="btn btn-success w-100" disabled>
             <i class="mdi mdi-check-circle"></i> Current Plan
         </button>
-        
+    @elseif ($activeSubscription) 
         <form action=" " method="POST" style="display: inline;">
             @csrf
             <button type="submit" class="btn btn-warning w-100">
                 <i class="mdi mdi-swap-horizontal"></i> Switch Plan
             </button>
         </form>
-    
+    @else 
         <form action=" " method="POST" style="display: inline;">
             @csrf
             <button type="submit" class="btn btn-primary w-100">
                 <i class="mdi mdi-cart"></i> Subscribe Now
             </button>
         </form>
+   @endif
                    
                 </div>
             </div>
         </div>
-        
+      @empty 
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center py-5">
@@ -132,6 +134,7 @@
                 </div>
             </div>
         </div>
+     @endforelse  
         
     </div>
 
