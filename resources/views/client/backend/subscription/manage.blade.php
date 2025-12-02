@@ -128,7 +128,7 @@
         <h5 class="card-title mb-0">Subscription History</h5>
     </div>
     <div class="card-body">
-                   
+@if ($allSubscritions->count() > 0)          
 <div class="table-responsive">
     <table class="table table-hover mb-0">
         <thead>
@@ -140,37 +140,43 @@
             </tr>
         </thead>
         <tbody>
-                
+    @foreach ($allSubscritions as $sub)      
     <tr>
         <td>
-            <strong>name</strong><br>
-            <small class="text-muted">$price/billing_cycle</small>
+            <strong>{{ $sub->plan->name }}</strong><br>
+            <small class="text-muted">${{ $sub->plan->price }} /{{ $sub->plan->type }}</small>
         </td>
         <td>
-            
-                <span class="badge text-bg-success">Active</span>
-            
+           @if ($sub->status == 'active') 
+            <span class="badge text-bg-success">Active</span>
+            @elseif ($sub->status == 'cancelled')
                 <span class="badge text-bg-danger">Cancelled</span>
-            
-                <span class="badge text-bg-secondary">Expired</span>
-            
+            @elseif ($sub->status == 'pending')
                 <span class="badge text-bg-warning">Pending</span>
-            
+            @else
+                <span class="badge text-bg-secondary">{{ ucfirst($sub->status)  }}</span>
+            @endif 
         </td>
         <td> 
+            @if ($sub->current_period_start && $sub->current_period_end)
+                {{ $sub->current_period_start->format('M d') }} - 
+                {{ $sub->current_period_end->format('M d, Y') }}
+            @else
                 <span class="text-muted">-</span>
-            
+            @endif
         </td>
-        <td>created_at</td>
-    </tr>
+        <td>{{ $sub->created_at->format('M d, Y') }}</td>
+    </tr> 
+    @endforeach      
             
         </tbody>
     </table>
 </div>
-
+@else 
 <div class="text-center py-3">
     <p class="text-muted mb-0">No subscription history found.</p>
 </div>
+@endif  
                   
                 </div>
             </div>
