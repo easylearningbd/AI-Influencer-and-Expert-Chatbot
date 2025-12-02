@@ -189,34 +189,35 @@
             <h5 class="card-title mb-0">Usage Summary</h5>
         </div>
         <div class="card-body">
+           @if ($activeSubscription && $activeSubscription->isActive()) 
             
             <div class="mb-3">
                 <div class="d-flex justify-content-between mb-1">
                     <span class="text-muted">Tokens Used This Month</span>
-                    <span class="fw-semibold">tokens_used_this_month</span>
+                    <span class="fw-semibold">{{ number_format($activeSubscription->tokens_used_this_month)  }}</span>
                 </div>
                 <div class="progress" style="height: 8px;">
-                    <div class="progress-bar bg-primary"
-                            style="width:  %"></div>
+    <div class="progress-bar bg-primary"
+            style="width: {{ ($activeSubscription->tokens_used_this_month / $activeSubscription->monthly_tokens ) * 100}}  %"></div>
                 </div>
             </div>
 
             <div class="mb-3">
                 <div class="d-flex justify-content-between mb-1">
                     <span class="text-muted">Tokens Remaining</span>
-                    <span class="fw-semibold text-success">tokens_remaining</span>
+                    <span class="fw-semibold text-success">{{ number_format($activeSubscription->tokens_remaining) }}</span>
                 </div>
             </div>
 
             <div class="alert alert-info mb-0">
                 <i class="mdi mdi-information me-2"></i>
-                <small>Your tokens reset on next billing date</small>
+                <small>Your tokens reset on {{ $activeSubscription->next_billing_date ? $activeSubscription->next_billing_date->format('M d, Y') :  'next billing date'}}  </small>
             </div>
-         
+        @else 
             <div class="text-center py-3">
                 <p class="text-muted mb-0">No active subscription to show usage.</p>
             </div>
-            
+        @endif   
         </div>
     </div>
 
