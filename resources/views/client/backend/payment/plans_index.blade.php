@@ -20,7 +20,7 @@
     </span>
      @endif    
 
-<a href=" " class="btn btn-sm btn-primary">
+<a href="{{ route('user.subscription.manage') }}" class="btn btn-sm btn-primary">
     <i class="mdi mdi-cog"></i> Manage Subscription
 </a>
         </div>

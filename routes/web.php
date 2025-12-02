@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\InfluencerDataController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\ChatController;
 use App\Http\Controllers\User\PaymentController;
+use App\Http\Controllers\User\SubscriptionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -58,6 +59,13 @@ Route::controller(PaymentController::class)->group(function(){
 Route::get('/user/plans', 'UserPlans')->name('user.plans');
   
 });
+
+Route::controller(SubscriptionController::class)->group(function(){
+
+Route::get('/user/subscription/manage', 'UserSubscriptionManage')->name('user.subscription.manage');
+  
+});
+
 
 
 
