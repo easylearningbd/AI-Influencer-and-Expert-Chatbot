@@ -106,14 +106,14 @@
             <i class="mdi mdi-check-circle"></i> Current Plan
         </button>
     @elseif ($activeSubscription) 
-        <form action=" " method="POST" style="display: inline;">
+        <form action="{{ route('user.subscription.subscribe', $plan->slug) }}" method="POST" style="display: inline;">
             @csrf
             <button type="submit" class="btn btn-warning w-100">
                 <i class="mdi mdi-swap-horizontal"></i> Switch Plan
             </button>
         </form>
     @else 
-        <form action=" " method="POST" style="display: inline;">
+        <form action="{{ route('user.subscription.subscribe', $plan->slug) }}" method="POST" style="display: inline;">
             @csrf
             <button type="submit" class="btn btn-primary w-100">
                 <i class="mdi mdi-cart"></i> Subscribe Now
