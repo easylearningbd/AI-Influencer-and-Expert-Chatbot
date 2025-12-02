@@ -65,6 +65,9 @@ Route::controller(SubscriptionController::class)->group(function(){
 Route::get('/user/subscription/manage', 'UserSubscriptionManage')->name('user.subscription.manage');
 
 Route::post('/subscription/{plan:slug}/subscribe', 'SubscriptionSubscribe')->name('user.subscription.subscribe');
+
+Route::get('/subscription/{plan:slug}/checkout', 'SubscriptionCheckout')->name('user.subscription.checkout');
+  
   
 });
 
