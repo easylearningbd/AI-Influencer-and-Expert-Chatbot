@@ -66,13 +66,27 @@ class SubscriptionController extends Controller
                 ? 'Plan switched successfully! You are now on the' . $plan->name . 'Plan with' . $plan->tokens . 'Tokens'
                 : 'free subscription Activated Successfully you have ' .$plan->tokens . 'Tokens';
 
-            return redirect('user.subscription.manage')->with('success',$message);
+            return redirect()->route('user.subscription.manage')->with('success',$message);
 
         }
 
         // For te paid palns it will be redirect to Checkout page
         return redirect()->route('user.subscription.checkout',$plan->sulg);
 
+    }
+    // End Method 
+
+    public function SubscriptionCancel(Subscription $subscription){
+        
+        $user = Auth::user();
+
+        if ($subscription->user_id !== $user->id ) {
+           abort(403,'Unauthorized');
+        }
+
+        $subscription->cancel();
+
+        return back()->with('success', 'Subscription cancelled. You can still use your tokens until' . $subscription->expires_at->format('M d, Y') . '.');
     }
     // End Method 
 

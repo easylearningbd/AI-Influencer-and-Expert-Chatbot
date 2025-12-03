@@ -66,6 +66,9 @@ Route::get('/user/subscription/manage', 'UserSubscriptionManage')->name('user.su
 
 Route::post('/subscription/{plan:slug}/subscribe', 'SubscriptionSubscribe')->name('user.subscription.subscribe');
 
+Route::post('/subscriptions/{subscription}/cancel', 'SubscriptionCancel')->name('user.subscription.cancel');
+
+
 Route::get('/subscription/{plan:slug}/checkout', 'SubscriptionCheckout')->name('user.subscription.checkout');
   
   

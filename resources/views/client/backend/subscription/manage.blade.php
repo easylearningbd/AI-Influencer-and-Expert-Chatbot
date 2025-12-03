@@ -93,13 +93,13 @@
 
         <div class="d-flex gap-2">
             
-                <form action=" " method="POST"
-                        onsubmit="return confirm('Are you sure you want to cancel this subscription?')">
-                    @csrf
-                    <button type="submit" class="btn btn-outline-danger">
-                        <i class="mdi mdi-cancel me-1"></i> Cancel Subscription
-                    </button>
-                </form>
+        <form action="{{ route('user.subscription.cancel',$activeSubscription->id) }}" method="POST"
+                onsubmit="return confirm('Are you sure you want to cancel this subscription?')">
+            @csrf
+            <button type="submit" class="btn btn-outline-danger">
+                <i class="mdi mdi-cancel me-1"></i> Cancel Subscription
+            </button>
+        </form>
             
 
             <a href=" " class="btn btn-primary">
