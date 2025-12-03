@@ -105,6 +105,11 @@ class SubscriptionController extends Controller
     }
      // End Method 
 
+    public function SubscriptionPayment(Request $request, Plan $plan){
+
+    }
+    // End Method 
+
 
 
     

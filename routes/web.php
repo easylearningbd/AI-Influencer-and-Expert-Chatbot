@@ -70,7 +70,7 @@ Route::post('/subscriptions/{subscription}/cancel', 'SubscriptionCancel')->name(
 
 
 Route::get('/subscription/{plan:slug}/checkout', 'SubscriptionCheckout')->name('user.subscription.checkout');
-  
+Route::post('/subscriptions/{plan:slug}/payment', 'SubscriptionPayment')->name('user.subscription.payment');
   
 });
 

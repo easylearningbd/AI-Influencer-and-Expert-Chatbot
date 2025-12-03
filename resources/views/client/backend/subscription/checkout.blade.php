@@ -18,7 +18,7 @@
                     <h5 class="mb-0">Subscription Payment</h5>
                 </div>
                 <div class="card-body">
-<form action=" " method="POST" enctype="multipart/form-data" id="payment-form">
+<form action="{{ route('user.subscription.payment',$plan->slug) }}" method="POST" enctype="multipart/form-data" id="payment-form">
     @csrf
 
     <!-- Payment Method Selection -->
@@ -241,6 +241,20 @@
 }
 </style>
 
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    // Form validation 
+    document.getElementById('payment-form').addEventListener('submit', function(e){
+        const paymentMethod = document.querySelector('input[name="payment_method"]:checked');
 
+        if (!paymentMethod) {
+            e.preventDefault();
+            alert('Please select a payment method');
+            return false;
+        }
+    });
+});
+
+</script>
 
 @endsection
