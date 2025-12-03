@@ -37,17 +37,18 @@ class SubscriptionController extends Controller
         }
 
         // If the user has active subscription then cancel if first next to switching 
+ 
+        // For free plan, 
+        if ($plan->price == 0) {
 
-        if ($activeSubscription) {
+           if ($activeSubscription) {
             $activeSubscription->update([
                 'status' => 'cancelled',
                 'cancelled_at' => now(),
                 'expires_at' => now(),
             ]);
-        }
+         }
 
-        // For free plan, 
-        if ($plan->price == 0) {
             $subscription = Subscription::create([
                 'user_id' => $user->id,
                 'plan_id' => $plan->id,
@@ -106,6 +107,17 @@ class SubscriptionController extends Controller
      // End Method 
 
     public function SubscriptionPayment(Request $request, Plan $plan){
+
+        $request->validate([
+            'payment_method' => 'required|in:bank_transfer',
+            'bank_details' => 'required',
+            'payment_proof' => 'required|file|mimes:png,jpg,jpeg,pdf|max:5120'
+        ]);
+
+        $user = Auth::user();
+
+        $activeSubscription = $user->activeSubscription();
+        $pendingSubscription = $user->pendingSubscription();
 
     }
     // End Method 

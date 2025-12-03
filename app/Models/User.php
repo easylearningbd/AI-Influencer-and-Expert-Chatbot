@@ -56,13 +56,33 @@ class User extends Authenticatable
                 $query->whereNull('expires_at')
                     ->orWhere('expires_at', '>', now());
             })->first();
-
+ 
    }
 
    // Check if user has active subscription 
    public function hasActiveSubscription(): bool {
         return $this->activeSubscription() !== null;
    }
+
+   // Get user pending subscrition (Waiting for payment approval from admin)
+ public function pendingSubscription(){
+
+    return $this->subscriptions()
+            ->where('status','pending')
+            ->orderBy('created_at','desc')
+            ->first(); 
+   }
+
+   // Get users active or pending subscription 
+   public function currentSubscription(){
+
+    $active = $this->activeSubscription();
+    if ($active) {
+        return $active;
+    }
+    return $this->pendingSubscription();
+   }
+
 
 
    /// Helper method for manage the token 
