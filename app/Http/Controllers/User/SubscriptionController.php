@@ -71,7 +71,7 @@ class SubscriptionController extends Controller
         }
 
         // For te paid palns it will be redirect to Checkout page
-        return redirect()->route('user.subscription.checkout',$plan->sulg);
+        return redirect()->route('user.subscription.checkout',$plan->slug);
 
     }
     // End Method 
@@ -92,6 +92,16 @@ class SubscriptionController extends Controller
 
     public function SubscriptionCheckout(Plan $plan){
 
+        $user = Auth::user();
+
+        $activeSubscription = $user->activeSubscription();
+
+        // Check if trying to check their current plan
+        if ($activeSubscription && $activeSubscription->plan_id === $plan->id ) {
+           return redireact()->route('user.subscription.manage')->with('info','You are already subscribed to this plan');
+        }
+
+        return view('client.backend.subscription.checkout',compact('plan','activeSubscription'));
     }
      // End Method 
 
