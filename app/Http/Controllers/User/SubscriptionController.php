@@ -119,6 +119,58 @@ class SubscriptionController extends Controller
         $activeSubscription = $user->activeSubscription();
         $pendingSubscription = $user->pendingSubscription();
 
+        if ($activeSubscription && $activeSubscription->plan_id === $plan->id) {
+            return back()->with('info','You are already subscribed to this plan');
+        }
+
+        if ($pendingSubscription && $pendingSubscription->plan_id === $plan->id) {
+            return back()->with('info','You are already have a pending subscrition for this plan. Please wait for admin approval');
+        }
+
+        // Cancel any pending subscriptions of other plans
+        if ($pendingSubscription && $pendingSubscription->plan_id !== $plan->id) {
+            $pendingSubscription->update([
+                'status' => 'cancelled',
+                'cancelled_at' => now(),
+                'expires_at' => now(),
+            ]);
+        }
+
+
+         if ($activeSubscription ) {
+            $activeSubscription->update([
+                'status' => 'cancelled',
+                'cancelled_at' => now(),
+                'expires_at' => now(),
+            ]);
+        }
+
+        // Handle payment proof upload 
+        $paymentProofPath = null;
+
+        if ($request->hasFile('payment_proof')) {
+            $file = $request->file('payment_proof');
+            $fileName = time() . '_' . $user->id . '_' . $file->getClientOriginalName();
+            $filePath = 'uploads/payment_proofs';
+
+            /// Create director if its doesn't exist
+            if (!file_exists(public_path($filePath))) {
+                mkdir(public_path($filePath), 0777, true);
+            }
+
+            $file->move(public_path($filePath), $fileName);
+            $paymentProofPath  = $filePath . '/' . $fileName; 
+
+        }
+
+        // Create pending data store in subscription table 
+
+
+        /// create nad store in transactions table
+        
+ 
+
+
     }
     // End Method 
 
