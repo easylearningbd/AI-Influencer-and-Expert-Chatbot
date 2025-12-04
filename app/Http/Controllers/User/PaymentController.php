@@ -26,6 +26,19 @@ class PaymentController extends Controller
     }
     // End Method 
 
+    public function UserTransactions(){
+
+        $transactions = Transaction::where('user_id', Auth::id())
+                ->where('status','pending')
+                ->with(['plan'])
+                ->orderBy('created_at','desc')
+                ->paginate(10);
+
+        return view('client.backend.payment.transactions_page',compact('transactions'));
+
+    }
+     // End Method 
+
 
 
 

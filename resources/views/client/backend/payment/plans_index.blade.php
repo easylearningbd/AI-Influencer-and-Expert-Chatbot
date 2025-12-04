@@ -1,18 +1,5 @@
 @extends('client.client_dashboard')
-@section('client')
-@php
-    if ($activeSubscription) {
-        \Log::info('Active Subscription Found', [
-            'subscription_id' => $activeSubscription->id,
-            'plan_id' => $activeSubscription->plan_id,
-            'status' => $activeSubscription->status,
-            'expires_at' => $activeSubscription->expires_at,
-        ]);
-    } else {
-        \Log::info('No Active Subscription Found');
-    }
-@endphp
-
+@section('client') 
 <div class="container-xxl">
 
     <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">

@@ -57,6 +57,7 @@ Route::post('/chat/{influencer:slug}/generate-image', 'ChatGenerateImage')->name
 Route::controller(PaymentController::class)->group(function(){
 
 Route::get('/user/plans', 'UserPlans')->name('user.plans');
+Route::get('/user/transactions', 'UserTransactions')->name('user.transactions');
   
 });
 
