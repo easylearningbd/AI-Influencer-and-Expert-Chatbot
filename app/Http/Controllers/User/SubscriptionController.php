@@ -165,12 +165,39 @@ class SubscriptionController extends Controller
 
         // Create pending data store in subscription table 
 
+        $subscription = Subscription::create([
+                'user_id' => $user->id,
+                'plan_id' => $plan->id,
+                'status' => 'pending',
+                'monthly_tokens' => $plan->tokens,
+                'tokens_used_this_month' => 0,
+                'tokens_remaining' => 0,
+                'current_period_start' => null,
+                'current_period_end' => null,
+                'next_billing_date' => null, 
+            ]);
+
 
         /// create nad store in transactions table
-        
- 
 
+        $transaction = $user->transactions()->create([
+            'plan_id' => $plan->id,
+            'amount' => $plan->price,
+            'tokens' => $plan->tokens,
+            'payment_method' => 'bank_transfer',
+            'status' => 'pending',
+            'transaction_type' => 'subscription',
+            'subscription_id' => $subscription->id,
+            'payment_proof' => $paymentProofPath,
+            'bank_details' => $request->bank_details,
+        ]);
 
+        $notification = array(
+            'message' => 'Subscription request submitted! That will be activated once payment is confirmed by admin',
+            'alert-type' => 'success'
+             ); 
+
+        return redirect()->route('user.subscription.manage')->with($notification); 
     }
     // End Method 
 
