@@ -39,6 +39,18 @@ class PaymentController extends Controller
     }
      // End Method 
 
+     public function UserTransactionsShow(Transaction $transaction){
+
+        if ($transaction->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized access');
+        }
+        $transaction->load(['plan']);
+
+        return view('client.backend.payment.transaction_show',compact('transaction'));
+
+     }
+      // End Method 
+
 
 
 
