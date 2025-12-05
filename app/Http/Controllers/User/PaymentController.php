@@ -51,6 +51,26 @@ class PaymentController extends Controller
      }
       // End Method 
 
+    public function UserTokenBalance(){
+
+        $user = Auth::user();
+
+        // Get recent token transactions 
+        $recentTransactions = Transaction::where('user_id',$user->id)
+                ->where('status','completed')
+                ->orderBy('approved_at','desc')
+                ->limit(10)
+                ->get();
+
+        // Get token usage from chats (for per message it should be as 5)
+        $totalMessages = $user->chats()->count();
+        $tokensUsed = $totalMessages * 5;
+
+        return view('client.backend.payment.token_balance',compact('user','recentTransactions','totalMessages','tokensUsed'));
+
+    }
+    // End Method 
+
 
 
 

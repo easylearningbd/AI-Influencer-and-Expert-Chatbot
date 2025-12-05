@@ -59,6 +59,7 @@ Route::controller(PaymentController::class)->group(function(){
 Route::get('/user/plans', 'UserPlans')->name('user.plans');
 Route::get('/user/transactions', 'UserTransactions')->name('user.transactions');
 Route::get('/user/transactions/{transaction}/show', 'UserTransactionsShow')->name('user.transactions.show');
+Route::get('/user/token/balance', 'UserTokenBalance')->name('user.token.balance');
   
 });
 
