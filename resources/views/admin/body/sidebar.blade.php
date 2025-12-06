@@ -54,9 +54,9 @@
         </li>
 
         <li class="side-nav-item">
-            <a href="apps-calendar.html" class="side-nav-link">
+            <a href="{{ route('admin.payment.index') }}" class="side-nav-link">
                 <span class="menu-icon"><i class="ti ti-calendar"></i></span>
-                <span class="menu-text"> Calendar </span>
+                <span class="menu-text"> Payment Management </span>
             </a>
         </li>
 

@@ -72,6 +72,58 @@ class PaymentController extends Controller
     // End Method 
 
 
+    /////////////// All for Admin ///////
+
+    public function AdminPaymentIndex(Request $request){
+
+        $query = Transaction::with(['user','plan','approvedBy']);
+
+        // Filter by Status 
+        if ($request->filled('status')) {
+            $query->where('status',$request->status);
+        }
+
+         // Filter by Payment method  
+        if ($request->filled('payment_method')) {
+            $query->where('payment_method',$request->payment_method);
+        }
+
+         // Filter by date range
+        if ($request->filled('date_from')) {
+            $query->whereDate('created_at', '>=' ,$request->date_from);
+        }
+
+         if ($request->filled('date_to')) {
+            $query->whereDate('created_at', '<=' ,$request->date_to);
+        }
+
+        /// Search by transaction id or user name 
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('transaction_id', 'like', "%{$search}%")
+                ->orWhereHas('user', function($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+                });
+            });
+        }
+
+        $transaction = $query->orderBy('created_at','desc')->paginate(10);
+
+$stats = [
+    'pending' => Transaction::where('status','pending')->count(),
+    'completed' => Transaction::where('status','completed')->count(),
+    'rejected' => Transaction::where('status','rejected')->count(),
+    'total_revenue' => Transaction::where('status','completed')->sum('amount'),
+];
+
+return view('admin.backend.payment.payment_index',compact('transaction','stats')); 
+
+    }
+     // End Method 
+
+
 
 
 
