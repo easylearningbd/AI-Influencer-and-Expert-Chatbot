@@ -193,7 +193,7 @@
                 <small class="text-muted">{{ $item->created_at->format('g:i A') }}</small>
             </td>
             <td>
-                <a href=" " class="btn btn-sm btn-primary">
+                <a href="{{ route('admin.payment.show',$item->id) }}" class="btn btn-sm btn-primary">
                     <i class="mdi mdi-eye"></i> View
                 </a>
             </td>

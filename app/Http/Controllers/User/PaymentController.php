@@ -124,6 +124,15 @@ return view('admin.backend.payment.payment_index',compact('transaction','stats')
      // End Method 
 
 
+     public function AdminPaymentShow(Transaction $transaction){
+
+        $transaction->load(['user','plan','approvedBy']);
+        return view('admin.backend.payment.payment_show',compact('transaction'));
+
+     }
+     // End Method 
+
+
 
 
 
