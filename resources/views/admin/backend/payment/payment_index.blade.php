@@ -143,48 +143,54 @@
         </tr>
     </thead>
     <tbody>
-        
+        @forelse ($transaction as $item) 
         <tr>
             <td>
-                <strong> transaction_id</strong>
+                <strong> {{ $item->transaction_id }}</strong>
             </td>
             <td>
-                name<br>
-                <small class="text-muted">email</small>
+                {{ $item->user->name }}<br>
+                <small class="text-muted"> {{ $item->user->email }}</small>
             </td>
             <td>
-                name
+                  @if ($item->plan)
+                        {{ $item->plan->name }}
+                  @else
                     <span class="text-muted">N/A</span>
-                
+                  @endif
             </td>
             <td>
-                <strong>$amount</strong>
+                <strong>${{ number_format($item->amount, 2) }}</strong>
             </td>
             <td>
-                <span class="badge bg-info">tokens</span>
+                <span class="badge bg-info">{{ number_format($item->tokens) }}</span>
             </td>
             <td>
-                
+                  @if ($item->payment_method === 'bank_transfer') 
                     <i class="ri-bank-line"></i> Bank
-                
+                  @elseif ($item->payment_method === 'card')
                     <i class="ri-id-card-line"></i> Card
+                 @elseif ($item->payment_method === 'stripe')
+                    <i class="ri-paypal-fill"></i> PayPal
+                 @endif
                 
-                        <i class="ri-paypal-fill"></i> PayPal
-                
-                
+                 @if ($item->payment_proof) 
                     <br><small class="badge bg-success"><i class="mdi mdi-file-check"></i> Proof</small>
+                 @endif
                 
             </td>
             <td>
-               
+          @if ($item->status === 'pending')     
           <div class="badge bg-info">Pending</div> 
-          <div class="badge bg-success">Completed</div> 
+           @elseif ($item->status === 'completed')
+          <div class="badge bg-success">Completed</div>
+           @elseif ($item->status === 'rejected') 
           <div class="badge bg-danger">Rejected</div> 
-        
+          @endif
             </td>
             <td>
-                created_at<br>
-                <small class="text-muted">created_at</small>
+                {{ $item->created_at->format('M d, Y') }}<br>
+                <small class="text-muted">{{ $item->created_at->format('g:i A') }}</small>
             </td>
             <td>
                 <a href=" " class="btn btn-sm btn-primary">
@@ -192,21 +198,21 @@
                 </a>
             </td>
         </tr>
-      
+       @empty 
         <tr>
             <td colspan="9" class="text-center text-muted py-4">
                 <i class="mdi mdi-inbox" style="font-size: 3rem; opacity: 0.3;"></i>
                 <p>No transactions found</p>
             </td>
         </tr>
-        
+       @endforelse
     </tbody>
 </table>
 </div>
 
              
             <div class="mt-3">
-             links
+             {{ $transaction->links() }}
             </div>
              
         </div>
