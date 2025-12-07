@@ -142,6 +142,7 @@ Route::controller(PaymentController::class)->group(function(){
 
 Route::get('/admin/payment/index', 'AdminPaymentIndex')->name('admin.payment.index');
 Route::get('/admin/payment/show/{transaction}', 'AdminPaymentShow')->name('admin.payment.show');
+Route::post('/admin/payment/approve/{transaction}', 'AdminPaymentApprove')->name('admin.payment.approve');
   
 });
 

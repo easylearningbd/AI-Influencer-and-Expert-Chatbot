@@ -132,6 +132,14 @@ return view('admin.backend.payment.payment_index',compact('transaction','stats')
      }
      // End Method 
 
+     public function AdminPaymentApprove(Request $request, Transaction $transaction){
+
+
+        
+
+     }
+      // End Method 
+
 
 
 

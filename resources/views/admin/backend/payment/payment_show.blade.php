@@ -152,14 +152,14 @@
 
         <!-- Actions -->
         <div class="col-md-4">
-           
+   @if ($transaction->isPending()) 
             <!-- Approve Form -->
 <div class="card mb-3 border-success">
     <div class="card-header bg-success text-white">
         <h6 class="mb-0"><i class="mdi mdi-check-circle"></i> Approve Payment</h6>
     </div>
     <div class="card-body">
-        <form action=" " method="POST">
+        <form action="{{ route('admin.payment.approve',$transaction->id) }}" method="POST">
             @csrf
             <div class="mb-3">
                 <label class="form-label">Admin Notes (Optional)</label>
@@ -168,7 +168,7 @@
             <div class="alert alert-info">
                 <small>
                     <i class="mdi mdi-information"></i>
-                    This will add <strong>tokens tokens</strong> to name's account.
+                    This will add <strong>{{ number_format($transaction->tokens) }} tokens</strong> to <strong>{{ $transaction->user->name }}</strong>  account.
                 </small>
             </div>
             <button type="submit" class="btn btn-success w-100" onclick="return confirm('Are you sure you want to approve this payment?')">
@@ -196,7 +196,14 @@
         </form>
     </div>
 </div>
-             
+
+@else
+<div class="card">
+    <div class="card-body text-center">
+        <p>This transaction has been {{ $transaction->status }}</p>
+    </div> 
+</div>       
+@endif 
  
 
             <!-- User Information -->
