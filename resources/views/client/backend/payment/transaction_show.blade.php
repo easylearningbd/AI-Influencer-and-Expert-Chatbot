@@ -88,7 +88,7 @@
         </tr>
        @if ($transaction->approved_at) 
         <tr>
-            <th>{{ ucfrist($transaction->status) }} Date:</th>
+            <th>{{ ucfirst($transaction->status) }} Date:</th>
             <td>{{ $transaction->approved_at->format('F d, Y g:i A') }}</td>
         </tr>
        @endif 
