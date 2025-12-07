@@ -135,14 +135,16 @@
         </a>
     </div>
     <div class="card-body text-center"> 
-
-        
-            <img src=" " alt="Payment Proof" class="img-fluid" style="max-height: 600px;">
-        
-            <embed src=" " type="application/pdf" width="100%" height="600px">
-        
+        @php
+            $extension = pathinfo($transaction->payment_proof, PATHINFO_EXTENSION);
+        @endphp
+        @if (in_array($extension, ['jpg','jpeg','png'])) 
+            <img src="{{ asset($transaction->payment_proof) }}" alt="Payment Proof" class="img-fluid" style="max-height: 600px;">
+        @elseif ($extension === 'pdf')
+            <embed src="{{ asset($transaction->payment_proof) }}" type="application/pdf" width="100%" height="600px">
+        @else
             <p class="text-muted">Unable to preview this file type. Please download to view.</p>
-        
+          @endif
     </div>
 </div>
            
@@ -207,20 +209,20 @@
             <tr>
                 <td><strong>Current Balance:</strong></td>
                 <td class="text-end">
-                    <span class="badge bg-info">token_balancetokens</span>
+                    <span class="badge bg-info">{{ number_format($transaction->user->token_balance) }}</span>
                 </td>
             </tr>
             <tr>
                 <td><strong>Plan Type:</strong></td>
-                <td class="text-end">plan_type</td>
+                <td class="text-end">{{ ucfirst($transaction->user->plan_type) }}</td>
             </tr>
             <tr>
                 <td><strong>Total Transactions:</strong></td>
-                <td class="text-end">transactions</td>
+                <td class="text-end">{{ $transaction->user->transactions()->count() }}</td>
             </tr>
             <tr>
                 <td><strong>Member Since:</strong></td>
-                <td class="text-end">created_at</td>
+                <td class="text-end">{{ $transaction->user->created_at->format('M Y') }}</td>
             </tr>
         </table>
     </div>
