@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Plan;
 use App\Models\Transaction;
 use Illuminate\Support\Str; 
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -134,8 +135,45 @@ return view('admin.backend.payment.payment_index',compact('transaction','stats')
 
      public function AdminPaymentApprove(Request $request, Transaction $transaction){
 
+        if ($transaction->status !== 'pending' ) {
+            $notimication = [
+                'message' => 'This transaction has already been processed',
+                'alert-type' => 'error',
+            ];
+            return redirect()->back()->with($notimication);
+        }
+
+        $request->validate([
+            'admin_notes' => 'nullable|string',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            /// Update in Transaction table status 
+        $transaction->update([
+            'status' => 'completed',
+            'approved_at' => now(),
+            'approved_by' => Auth::id(),
+            'admin_notes' => $request->admin_notes,
+        ]);
+
+        // Add tokens to user balance 
+        $user = $transaction->user;
+        $user->addTokens($transaction->tokens);
+
+        // If this is a subscription transaction then it should be active the subscription
+        
+            
+
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
 
         
+
+
 
      }
       // End Method 
