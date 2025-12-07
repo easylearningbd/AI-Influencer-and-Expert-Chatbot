@@ -201,6 +201,36 @@ return view('admin.backend.payment.payment_index',compact('transaction','stats')
      }
       // End Method 
 
+    public function AdminPaymentReject(Request $request, Transaction $transaction){
+
+        if ($transaction->status !== 'pending' ) {
+            $notification = [
+                'message' => 'This transaction has already been processed',
+                'alert-type' => 'error',
+            ];
+            return redirect()->back()->with($notification);
+        }
+
+        $request->validate([
+            'admin_notes' => 'nullable|string',
+        ]);
+
+         $transaction->update([
+            'status' => 'rejected',
+            'approved_at' => now(),
+            'approved_by' => Auth::id(),
+            'admin_notes' => $request->admin_notes,
+        ]);
+
+        $notification = [
+                'message' => 'Transaction rejected successfully',
+                'alert-type' => 'success',
+            ];
+       return redirect()->route('admin.payment.index')->with($notification); 
+
+    }
+    // End Method 
+
 
 
 

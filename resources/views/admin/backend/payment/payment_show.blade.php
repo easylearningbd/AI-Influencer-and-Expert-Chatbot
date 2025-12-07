@@ -184,7 +184,7 @@
         <h6 class="mb-0"><i class="mdi mdi-close-circle"></i> Reject Payment</h6>
     </div>
     <div class="card-body">
-        <form action=" " method="POST">
+        <form action="{{ route('admin.payment.reject',$transaction->id) }}" method="POST">
             @csrf
             <div class="mb-3">
                 <label class="form-label">Rejection Reason <span class="text-danger">*</span></label>
