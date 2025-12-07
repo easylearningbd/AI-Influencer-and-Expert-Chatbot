@@ -130,7 +130,7 @@
 <div class="card mt-3">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0">Payment Proof</h5>
-        <a href=" " class="btn btn-sm btn-primary">
+        <a href="{{ route('admin.payment.download-proof',$transaction->id) }}" class="btn btn-sm btn-primary">
             <i class="mdi mdi-download"></i> Download
         </a>
     </div>

@@ -231,6 +231,17 @@ return view('admin.backend.payment.payment_index',compact('transaction','stats')
     }
     // End Method 
 
+    public function AdminPaymentDownload(Transaction $transaction){
+
+        if (!$transaction->payment_proof || !file_exists(public_path($transaction->payment_proof))) {
+            abort(404, 'Payment proof not found');
+        }
+ 
+        return response()->download(public_path($transaction->payment_proof));
+
+    }
+        // End Method 
+
 
 
 

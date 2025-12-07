@@ -144,6 +144,7 @@ Route::get('/admin/payment/index', 'AdminPaymentIndex')->name('admin.payment.ind
 Route::get('/admin/payment/show/{transaction}', 'AdminPaymentShow')->name('admin.payment.show');
 Route::post('/admin/payment/approve/{transaction}', 'AdminPaymentApprove')->name('admin.payment.approve');
 Route::post('/admin/payment/reject/{transaction}', 'AdminPaymentReject')->name('admin.payment.reject');
+Route::get('/admin/payment/download-proof/{transaction}', 'AdminPaymentDownload')->name('admin.payment.download-proof');
   
 });
 
