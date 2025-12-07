@@ -11,7 +11,13 @@
             </h4>
         </div>
         <div>
-          status_badge
+           @if ($transaction->status === 'pending')     
+          <div class="badge bg-info">Pending</div> 
+           @elseif ($transaction->status === 'completed')
+          <div class="badge bg-success">Completed</div>
+           @elseif ($transaction->status === 'rejected') 
+          <div class="badge bg-danger">Rejected</div> 
+          @endif
         </div>
     </div>
 
@@ -26,84 +32,96 @@
     <table class="table table-borderless">
         <tr>
             <th width="30%">Transaction ID:</th>
-            <td><strong>transaction_id</strong></td>
+            <td><strong>{{ $transaction->transaction_id }}</strong></td>
         </tr>
         <tr>
             <th>User:</th>
             <td>
-                name<br>
-                <small class="text-muted">email</small><br>
-                <small class="text-muted">User ID: user</small>
+                {{ $transaction->user->name }}<br>
+                <small class="text-muted">{{ $transaction->user->email }}</small><br>
+                <small class="text-muted">User ID: {{ $transaction->user->id }}</small>
             </td>
         </tr>
         <tr>
             <th>Plan:</th>
             <td>
-                
-                    <strong>name</strong><br>
-                    <small class="text-muted">description</small>
-                
+                @if ($transaction->plan) 
+                    <strong>{{ $transaction->plan->name }}</strong><br>
+                    <small class="text-muted">{{ $transaction->plan->description }}</small>
+                @else 
                     <span class="text-muted">N/A</span>
-                
+                 @endif
             </td>
         </tr>
         <tr>
             <th>Amount:</th>
-            <td><h4 class="text-primary mb-0">$amount</h4></td>
+            <td><h4 class="text-primary mb-0">${{ number_format($transaction->amount, 2) }}</h4></td>
         </tr>
         <tr>
             <th>Tokens:</th>
-            <td><span class="badge bg-info" style="font-size: 1.1rem;">tokens tokens</span></td>
+            <td><span class="badge bg-info" style="font-size: 1.1rem;">
+                {{ number_format($transaction->tokens) }} tokens</span></td>
         </tr>
         <tr>
             <th>Payment Method:</th>
             <td>
                 
-                    <i class="ri-bank-line"></i> Bank Transfer
-                    
-                    <i class="ri-id-card-line"></i> Credit/Debit Card
-                    
+               @if ($transaction->payment_method === 'bank_transfer') 
+                    <i class="ri-bank-line"></i> Bank
+               @elseif ($transaction->payment_method === 'card')
+                    <i class="ri-id-card-line"></i> Card
+               @elseif ($transaction->payment_method === 'stripe')
                     <i class="ri-paypal-fill"></i> PayPal
+                @endif
                 
             </td>
         </tr>
         <tr>
             <th>Status:</th>
-            <td>status_badge</td>
+            <td> 
+          @if ($transaction->status === 'pending')     
+          <div class="badge bg-info">Pending</div> 
+           @elseif ($transaction->status === 'completed')
+          <div class="badge bg-success">Completed</div>
+           @elseif ($transaction->status === 'rejected') 
+          <div class="badge bg-danger">Rejected</div> 
+          @endif
+        </td>
         </tr>
         <tr>
             <th>Submitted Date:</th>
-            <td>created_at</td>
+            <td>{{ $transaction->created_at->format('F d, Y g:i A') }}</td>
         </tr>
-        
+        @if ($transaction->approved_at) 
         <tr>
-            <th>status Date:</th>
-            <td>approved_at</td>
+            <th>{{ ucfirst($transaction->status) }} Date:</th>
+            <td>{{ $transaction->approved_at->format('F d, Y g:i A') }}</td>
         </tr>
+        @endif
         
-        
+         @if ($transaction->approved_by)
         <tr>
             <th>Processed By:</th>
-            <td>approvedBy</td>
+            <td>{{ $transaction->approvedBy->name }}</td>
         </tr>
-        
+         @endif
     </table>
 
-    
+     @if ($transaction->bank_details)
     <hr>
     <h6>Bank Transfer Details</h6>
     <div class="alert alert-light">
-        bank_details
+        {{ $transaction->bank_details }}
     </div>
-    
+    @endif
 
-    
+    @if ($transaction->admin_notes)
     <hr>
     <h6>Admin Notes</h6>
     <div class="alert alert-warning">
-        admin_notes
+        {{ $transaction->admin_notes }}
     </div>
-    
+     @endif
 </div>
 </div>
 
