@@ -32,18 +32,34 @@ class CoachService
         }
 
         // Create new Session 
+        $session = CoachSession::create([
+            'user_id' => $user->id,
+            'coach_id' => $coach->id,
+            'session_id' => Str::uuid(),
+            'started_at' => now(),
+            'last_activity_at' => now(),
+            'is_first_session' => $isFirstSession,
+            'tokens_charged' => $tokensToCharge,
+            'was_charged' => $tokensToCharge > 0,
+            'is_active' => true,
+        ]);
 
+        $coach->incrementSessions();
 
-
+        return $session;
     }
 
 
+    /// Send a message to the AI coach and get response 
+public function sendMessage(CoachSession $session, string $message) : array {
 
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
+
+}
+// End sendMessage Method 
+
+
+
+
+    
+    
 }
