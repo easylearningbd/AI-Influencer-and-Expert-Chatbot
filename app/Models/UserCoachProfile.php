@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class UserCoachProfile extends Model
 {
@@ -36,7 +38,49 @@ class UserCoachProfile extends Model
         'daily_calorie_goal' => 'integer', 
     ];
 
+    public function user(): BelongsTo {
+        return $this->belongsTo(User::class);
+    }
+
+     public function coach(): BelongsTo {
+        return $this->belongsTo(Coach::class);
+    }
     
+    public function completeOnboarding() : void {
+        $this->update(['onboarding_completed' => true, 'onboarding_completed_at' => now()]);
+    }
+
+    public function needsOnboarding(): bool {
+        return !$this->onboarding_completed;
+    }
+
+    public function getProfileSummary(): string {
+
+        $coach = $this->coach;
+        $summary = [];
+
+switch ($coach->speciality) {
+    case 'carrer':
+        if($this->current_role) $summary[] = "Current: {$this->current_role}";
+        if($this->target_role) $summary[] = "Target: {$this->target_role}";
+        break;
+
+    case 'fitness':
+        if($this->fitness_level) $summary[] = "Level: {$this->fitness_level}";
+        if($this->fitness_goals) $summary[] = "Goal: {$this->fitness_goals}";
+        break;
+    case 'finance':
+        if($this->monthly_income) $summary[] = "Income: $" . number_format($this->monthly_income,0) ;
+        if($this->risk_tolerance) $summary[] = "Rick: {$this->risk_tolerance}";
+        break;
+    case 'nutrition':
+        if($this->daily_calorie_goal) $summary[] = "{$this->daily_calorie_goal}kcal/day"; 
+        break; 
+        }
+        return implode(' | ',$summary) ?: 'Profile Incomplete'; 
+
+    }
+    // end getProfileSummary method 
 
 
 
