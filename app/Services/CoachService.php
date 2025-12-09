@@ -229,7 +229,51 @@ private function getDefaultPrompt(string $speciality): string {
  // Call chatgpt api 
  private function callOpenAI(string $systemPrompt, array $conversationHistory, string $userMessage ) : array {
 
+    $apiKey = config('services.openai.api_key');
 
+    if (!$apiKey) {
+        throw new \Exception('Open AI API key not configured');
+    }
+
+    // Build messages array 
+    $messages =  [
+        ['role' => 'system', 'content' => $systemPrompt]
+    ];
+
+    // Add Conversation history 
+    foreach($conversationHistory as $msg) {
+        $messages[] = $msg;
+    }
+
+    // Add current user message 
+    $messages[] = ['role' => 'user', 'content' => $userMessage];
+
+    try {
+
+       $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $apiKey,
+                'Content-Type' => 'application/json',
+            ])->timeout(120)->post('https://api.openai.com/v1/chat/completions',[
+                'model' => config('services.openai.model', 'gpt-4'),
+                'messages' => $messages,
+                'temperature' => 0.7,
+                'max_tokens' => 1000, 
+            ]);
+
+      if ($response->failed()) {
+        throw new \Exception('Open AI API request failed');
+      }
+
+      $data = $response->json();
+
+      return [ 
+        'message' => $data['choices'][0]['message']['content'] ?? 'No response generated',
+        'tokens_used' => $data['usage']['total_tokens'] ?? 0,
+      ]; 
+
+    } catch (\Exception $e) {
+       throw new \Exception('Failed to get AI Response' . $e->getMessage());
+    } 
  }
 
   // End callOpenAI Method 
