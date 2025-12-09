@@ -289,6 +289,17 @@ private function getDefaultPrompt(string $speciality): string {
 
     // end endSession Method 
 
+    public function needsOnboarding(User $user, Coach $coach): bool {
+
+        $profile = UserCoachProfile::where('user_id',$use->id)
+                ->where('coach_id',$coach->id)
+                ->first();
+
+        return !$profile || $profile->needsOnboarding();
+
+    }
+     // end needsOnboarding Method 
+
     public function completeOnboarding(User $user, Coach $coach, array $data) : UserCoachProfile {
 
         $profile = UserCoachProfile::updateOrCreate([
