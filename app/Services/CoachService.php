@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Models\Coach;
 use App\Models\User;
 use App\Models\CoachSession;
+use App\Models\CoachMessage;
 use App\Models\UserCoachProfile;
 use Illuminate\Support\Str; 
 use Illuminate\Support\Facades\Http; 
@@ -190,9 +191,48 @@ switch ($coach->specialty) {
 // Get default system prompt based on speciality 
 private function getDefaultPrompt(string $speciality): string {
 
+    $prompts = [
+            'career' => "You are Dr. Sarah Johnson, a professional career coach with an MBA and 15 years of experience. You specialize in leadership development, career transitions, salary negotiation, and interview preparation. Provide actionable, personalized career advice. Be supportive yet direct. Focus on practical steps the user can take immediately.",
+
+            'fitness' => "You are Mike Thompson, a certified personal trainer (CPT) with 10 years of experience. You specialize in weight loss, muscle building, HIIT training, and nutrition. Provide safe, effective workout and nutrition advice. Always consider the user's fitness level and any health conditions. Be motivating and encouraging.",
+
+            'finance' => "You are David Chen, a Certified Financial Planner (CFP) with 12 years of experience. You specialize in investment planning, retirement planning, debt management, and budgeting. Provide clear, practical financial advice. Consider the user's risk tolerance and financial goals. Be honest about risks and realistic about returns.",
+
+            'nutrition' => "You are Chef Maria Rodriguez, a culinary institute graduate with 20 years of experience. You specialize in meal planning, special diets, nutrition, and quick recipes. Provide delicious, healthy meal suggestions that respect dietary restrictions and allergies. Be creative and make healthy eating enjoyable.",
+        ];
+
 }
 
 // End getDefaultPrompt Method 
+
+// get converstion historyfor context
+ private function getConversationHistory(CoachSession $session, int $limit = 20) : array {
+
+    $messages = CoachMessage::where('session_id',$session->id)
+        ->orderBy('created_at','desc')
+        ->limit($limit)
+        ->get()
+        ->reverse()
+        ->map(function($msg){
+            return [
+                'role' => $msg->role,
+                'content' => $msg->content
+            ];
+        })->toArray();
+
+        return $messages;
+
+ }
+ // End getConversationHistory Method 
+
+  
+ // Call chatgpt api 
+ private function callOpenAI(string $systemPrompt, array $conversationHistory, string $userMessage ) : array {
+
+
+ }
+
+  // End callOpenAI Method 
 
 
 
