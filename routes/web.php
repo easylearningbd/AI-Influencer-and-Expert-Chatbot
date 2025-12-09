@@ -13,6 +13,7 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\ChatController;
 use App\Http\Controllers\User\PaymentController;
 use App\Http\Controllers\User\SubscriptionController;
+use App\Http\Controllers\User\CoachController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -78,6 +79,13 @@ Route::post('/subscriptions/{plan:slug}/payment', 'SubscriptionPayment')->name('
 });
 
 
+
+Route::controller(CoachController::class)->group(function(){
+
+Route::get('/all/coaches', 'AllCoaches')->name('all.coaches');
+ 
+  
+});
 
 
 

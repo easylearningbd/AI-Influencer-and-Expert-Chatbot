@@ -72,38 +72,49 @@
             </a>
         </li>
  
-       
+        <li class="side-nav-title mt-2">
+           Professional Coaching 
+        </li>
 
         <li class="side-nav-item">
             <a data-bs-toggle="collapse" href="#sidebarInvoice" aria-expanded="false" aria-controls="sidebarInvoice" class="side-nav-link">
                 <span class="menu-icon"><i class="ti ti-invoice"></i></span>
-                <span class="menu-text"> Invoice</span>
+                <span class="menu-text"> Expert Coaches </span>
                 <span class="menu-arrow"></span>
             </a>
             <div class="collapse" id="sidebarInvoice">
                 <ul class="sub-menu">
                     <li class="side-nav-item">
-                        <a href="apps-invoices.html" class="side-nav-link">
-                            <span class="menu-text">Invoices</span>
+                        <a href="{{ route('all.coaches') }}" class="side-nav-link">
+                            <span class="menu-text">All Coaches </span>
                         </a>
                     </li>
                     <li class="side-nav-item">
                         <a href="apps-invoice-details.html" class="side-nav-link">
-                            <span class="menu-text">View Invoice</span>
+                            <span class="menu-text">Career Coach </span>
                         </a>
                     </li>
                     <li class="side-nav-item">
                         <a href="apps-invoice-create.html" class="side-nav-link">
-                            <span class="menu-text">Create Invoice</span>
+                            <span class="menu-text">Fitness Coach </span>
+                        </a>
+                    </li>
+                    <li class="side-nav-item">
+                        <a href="apps-invoice-create.html" class="side-nav-link">
+                            <span class="menu-text">Finance Advisor  </span>
+                        </a>
+                    </li>
+
+                    <li class="side-nav-item">
+                        <a href="apps-invoice-create.html" class="side-nav-link">
+                            <span class="menu-text">Personal Chef </span>
                         </a>
                     </li>
                 </ul>
             </div>
         </li>
 
-        <li class="side-nav-title mt-2">
-            Custom
-        </li>
+        
 
     </ul>
 
