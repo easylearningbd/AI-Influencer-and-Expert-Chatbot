@@ -53,9 +53,39 @@ class CoachService
     /// Send a message to the AI coach and get response 
 public function sendMessage(CoachSession $session, string $message) : array {
 
+    $user =  $session->user;
+    $coach = $session->coach;
+    $profile = UserCoachProfile::where('user_id',$user->id)
+                ->where('coach_id',$coach->id)
+                ->first();
 
+    // Build personalized system prompt 
+    $systemPrompt = $this->buildSystemPrompt($coach,$profile);
+
+    // Get conversational history 
+    $conversationHistory = $this->getConversationHistory($session, 20);
+
+    /// Call Chatgpt API 
+    $response = $this->callOpenAI($systemPrompt,$conversationHistory,$message);
+
+    /// uPDATE SESSION METRICS 
+    $session->incrementMessages();
+    $session->increment('total_tokens_used', $response['tokens_used'] ?? 0);
+
+    return [
+        'message' => $response['message'],
+        'tokens_used' => $response['tokens_used'] ?? 0,
+    ];
 }
 // End sendMessage Method 
+
+
+private function buildSystemPrompt(Coach $coach,  ?UserCoachProfile $profile) : string {
+
+
+}
+
+// End buildSystemPrompt Method 
 
 
 
