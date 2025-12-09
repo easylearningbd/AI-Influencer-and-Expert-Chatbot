@@ -30,6 +30,9 @@ class CoachController extends Controller
             $profile = UserCoachProfile::where('user_id',$user->id)
                         ->where('coach_id',$coach->id)
                         ->first();
+
+          $coach->user_has_profile = $profile && $profile->onboarding_completed;
+          $coach->needs_onboarding = !$coach->user_has_profile;
                         
         }
 
