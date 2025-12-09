@@ -278,9 +278,34 @@ private function getDefaultPrompt(string $speciality): string {
 
   // End callOpenAI Method 
 
+  // end coaching session 
+  public function endSession(CoachSession $session, ?string $summary = null) : void {
+    $session->endSession();
 
+    if ($summary) {
+        $session->update(['session_summary' => $summary]);
+    }
+  }
 
+    // end endSession Method 
 
+    public function completeOnboarding(User $user, Coach $coach, array $data) : UserCoachProfile {
+
+        $profile = UserCoachProfile::updateOrCreate([
+            'user_id' => $user->id,
+            'coach_id' => $coach->id,
+        ],
+        array_merge($data,[
+            'onboarding_completed' =>  true,
+            'onboarding_completed_at' => now(),
+            'onboarding_answers' => $data,
+        ])       
+        
+        );
+
+        return $profile; 
+    } 
+       // end completeOnboarding Method  
     
     
 }
