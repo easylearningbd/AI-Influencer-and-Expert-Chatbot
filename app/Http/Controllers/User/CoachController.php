@@ -74,6 +74,27 @@ class CoachController extends Controller
     }
      // End Method 
 
+     public function CoachesOnborarding(Coach $coach){
+
+      $user = Auth::user();
+
+        // Check if user has completed onboarding 
+      $profile = UserCoachProfile::where('user_id',$user->id)
+                        ->where('coach_id',$coach->id)
+                        ->first();
+
+     if ($profile && $profile->onboarding_completed) {
+        return redirect()->route('coaches.show',$coach->slug)
+            ->with('info','You have already completed onboarding with this coach');
+     }
+
+     $questions = $coach->onboarding_questions ?? [];
+
+     return view('client.backend.coaches.onboarding_coaches',compact('coach','profile','questions'));
+
+     }
+     // End Method 
+
 
 
 }

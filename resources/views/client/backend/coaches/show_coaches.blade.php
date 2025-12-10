@@ -32,7 +32,7 @@
                         <i class="mdi mdi-alert-circle me-2"></i>Please complete onboarding before starting your coaching session
                     </div>
                     <div class="mt-4">
-                        <a href=" " class="btn btn-primary btn-lg">
+                        <a href="{{ route('coaches.onborarding',$coach->slug) }}" class="btn btn-primary btn-lg">
                             Complete Onboarding (50 tokens)
                         </a>
                     </div>
