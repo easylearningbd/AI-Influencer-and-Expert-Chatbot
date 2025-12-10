@@ -43,7 +43,7 @@ class CoachController extends Controller
 
     public function CoachesShow(Coach $coach){
 
-        $user = Auth::user();
+      $user = Auth::user();
 
         // Check if user has completed onboarding 
       $profile = UserCoachProfile::where('user_id',$user->id)
@@ -57,6 +57,19 @@ class CoachController extends Controller
             ->where('coach_id', $coach->id)
             ->orderBy('created_at','desc')
             ->get();
+
+      /// Get active session if exists
+      $activeSession = $user->coachSessions()
+        ->where('coach_id',$coach->id)
+        ->where('is_active', true)
+        ->first();
+
+    // check if this will be first session 
+    $isFirstSession = !$user->coachSessions()
+        ->where('coach_id',$coach->id)
+        ->exists();
+    
+    return view('client.backend.coaches.show_coaches',compact('profile','needsOnboarding','goals','activeSession','isFirstSession','coach'));
 
     }
      // End Method 
