@@ -85,6 +85,7 @@ Route::controller(CoachController::class)->group(function(){
 Route::get('/all/coaches', 'AllCoaches')->name('all.coaches');
 Route::get('/coaches/show/{coach:slug}', 'CoachesShow')->name('coaches.show');
 Route::get('/coaches/onborarding/{coach:slug}', 'CoachesOnborarding')->name('coaches.onborarding');
+Route::post('/coaches/onborarding/{coach:slug}/submit', 'CoachesOnborardingSubmit')->name('coaches.onboarding.submit');
     
 });
 

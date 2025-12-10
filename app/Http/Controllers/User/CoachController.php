@@ -95,6 +95,34 @@ class CoachController extends Controller
      }
      // End Method 
 
+     public function CoachesOnborardingSubmit(Request $request , Coach $coach){
+
+        $user = Auth::user();
+
+        $rules = $this->getValidationRules($coach->speciality);
+        $validated = $request->validate($rules);
+
+        try {
+            // save onboarding data 
+        
+            $this->coachService->completeOnboarding($user,$coach,$validated );
+
+    $notification = array(
+    'message' => 'Onboarding completed! you can now start your coaching session',
+    'alert-type' => 'success'
+        ); 
+
+          return redirect()->route('coaches.show',$coach->slug)->with($notification); 
+             
+        } catch (\Exception $e) {
+            return back()->withInput()
+                ->with('error','Failed to complete on boarding:' . $e->getMessage());
+        }
+
+
+     }
+          // End Method 
+
 
 
 }

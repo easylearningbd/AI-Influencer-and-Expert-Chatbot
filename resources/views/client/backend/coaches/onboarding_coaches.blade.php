@@ -30,7 +30,7 @@
 </div>
 
 <!-- Onboarding Form -->
-<form action=" " method="POST">
+<form action="{{ route('coaches.onboarding.submit',$coach->slug) }}" method="POST">
     @csrf
 
     @if ($coach->speciality == 'career') 
