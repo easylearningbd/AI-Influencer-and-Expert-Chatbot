@@ -123,6 +123,62 @@ class CoachController extends Controller
      }
           // End Method 
 
+    private function getValidationRules(string $speciality): array {
+
+        $commonRules = [];
+        
+        switch ($speciality) {
+            case 'career':
+                return array_merge($commonRules, [
+                    'current_role' => 'nullable|string|max:255',
+                    'target_role' => 'nullable|string|max:255',
+                    'years_experience' => 'nullable|integer|min:0|max:100',
+                    'skills' => 'nullable|array',
+                    'career_aspirations' => 'nullable|string|max:1000',
+                ]);
+
+            case 'fitness':
+                return array_merge($commonRules, [
+                    'fitness_level' => 'nullable|string|in:beginner,intermediate,advanced',
+                    'height' => 'nullable|numeric|min:50|max:300',
+                    'weight' => 'nullable|numeric|min:20|max:500',
+                    'gender' => 'nullable|string|in:male,female,other',
+                    'age' => 'nullable|integer|min:13|max:120',
+                    'health_conditions' => 'nullable|array',
+                    'fitness_goals' => 'nullable|string|max:1000',
+                    'workout_preferences' => 'nullable|array',
+                ]);
+
+            case 'finance':
+                return array_merge($commonRules, [
+                    'monthly_income' => 'nullable|numeric|min:0',
+                    'monthly_expenses' => 'nullable|numeric|min:0',
+                    'savings' => 'nullable|numeric|min:0',
+                    'debt' => 'nullable|numeric|min:0',
+                    'risk_tolerance' => 'nullable|string|in:conservative,moderate,aggressive',
+                    'financial_goals' => 'nullable|array',
+                    'investment_experience' => 'nullable|string|max:500',
+                ]);
+
+            case 'nutrition':
+                return array_merge($commonRules, [
+                    'dietary_restrictions' => 'nullable|array',
+                    'food_allergies' => 'nullable|array',
+                    'liked_foods' => 'nullable|array',
+                    'disliked_foods' => 'nullable|array',
+                    'daily_calorie_goal' => 'nullable|integer|min:500|max:10000',
+                    'meal_preferences' => 'nullable|array',
+                ]);
+
+            default:
+                return $commonRules;
+        }
+
+
+
+    }
+     // End Method 
+
 
 
 }
