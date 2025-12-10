@@ -41,6 +41,26 @@ class CoachController extends Controller
     }
     // End Method 
 
+    public function CoachesShow(Coach $coach){
+
+        $user = Auth::user();
+
+        // Check if user has completed onboarding 
+      $profile = UserCoachProfile::where('user_id',$user->id)
+                        ->where('coach_id',$coach->id)
+                        ->first();
+
+      $needsOnboarding = !$profile || !$profile->onboarding_completed;
+
+      /// Get user goals with the coach 
+      $goals = $user->goals()
+            ->where('coach_id', $coach->id)
+            ->orderBy('created_at','desc')
+            ->get();
+
+    }
+     // End Method 
+
 
 
 }

@@ -83,7 +83,7 @@ Route::post('/subscriptions/{plan:slug}/payment', 'SubscriptionPayment')->name('
 Route::controller(CoachController::class)->group(function(){
 
 Route::get('/all/coaches', 'AllCoaches')->name('all.coaches');
- 
+Route::get('/coaches/show/{coach:slug}', 'CoachesShow')->name('coaches.show');
   
 });
 

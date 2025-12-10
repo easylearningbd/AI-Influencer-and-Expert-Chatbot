@@ -100,7 +100,7 @@
 <!-- Action Buttons -->
 <div class="row mt-3">
     <div class="col-12">
-        <a href=" " class="btn btn-{{ $coach->speciality == 'career' ? 'primary' : ($coach->speciality == 'fitness' ? 'success' : ($coach->speciality == 'finance' ? 'warning' : 'info')) }} w-100">
+        <a href="{{ route('coaches.show',$coach->slug) }}" class="btn btn-{{ $coach->speciality == 'career' ? 'primary' : ($coach->speciality == 'fitness' ? 'success' : ($coach->speciality == 'finance' ? 'warning' : 'info')) }} w-100">
              @if ($coach->user_has_profile) 
                 Start Session
             @else

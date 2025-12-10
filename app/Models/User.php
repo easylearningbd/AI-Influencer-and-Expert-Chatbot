@@ -47,6 +47,19 @@ class User extends Authenticatable
         return $this->hasMany(Subscription::class);
    }
 
+    public function goals() : HasMany {
+        return $this->hasMany(UserGoal::class);
+   }
+
+    public function coachProfiles() : HasMany {
+        return $this->hasMany(UserCoachProfile::class);
+   }
+
+   public function coachSessions() : HasMany {
+        return $this->hasMany(CoachSession::class);
+   }
+
+
    /// Get user active subscription data 
    public function activeSubscription(){
 
