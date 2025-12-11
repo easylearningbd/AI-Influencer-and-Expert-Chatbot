@@ -96,6 +96,9 @@ Route::get('/coaches/goals/{coach:slug}/index', 'CoachesGoalsIndex')->name('coac
 Route::post('/coaches/goals/{coach:slug}/store', 'CoachesGoalsStore')->name('coaches.goals.store');
 Route::post('/coaches/{coach:slug}/goals/{goal}/progress', 'CoachesGoalsProgress')->name('coaches.goals.progress');
     
+Route::put('/coaches/{coach:slug}/goals/{goal}/update', 'CoachesGoalsUpdate')->name('coaches.goals.update');
+
+
 });
 
 

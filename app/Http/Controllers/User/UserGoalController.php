@@ -110,6 +110,11 @@ class UserGoalController extends Controller
     }
       // End Method
 
+    public function CoachesGoalsUpdate(Request $request,Coach $coach,UserGoal $goal ){
+
+    }
+       // End Method
+
 
 }
  

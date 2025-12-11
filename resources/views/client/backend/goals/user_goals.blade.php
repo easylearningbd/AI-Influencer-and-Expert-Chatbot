@@ -239,7 +239,72 @@
 </div>
 
 
+<!-- Edit Goal Modal -->
+<div class="modal fade" id="editGoalModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form id="editGoalForm" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Goal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="edit_title" class="form-label">Goal Title *</label>
+                        <input type="text" class="form-control" id="edit_title" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_description" class="form-label">Description</label>
+                        <textarea class="form-control" id="edit_description" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_category" class="form-label">Category</label>
+                            <input type="text" class="form-control" id="edit_category" name="category">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_priority" class="form-label">Priority</label>
+                            <select class="form-select" id="edit_priority" name="priority">
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_target_date" class="form-label">Target Date</label>
+                        <input type="date" class="form-control" id="edit_target_date" name="target_date">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Goal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
+
+    function openEditModal(id, title, description, category, priority, targetDate){
+
+        const form = document.getElementById('editGoalForm');
+        form.action = "{{ route('coaches.goals.update',[$coach->slug, ':id']) }}".replace(':id',id);
+
+        document.getElementById('edit_title').value = title;
+        document.getElementById('edit_description').value = description;
+        document.getElementById('edit_category').value = category;
+        document.getElementById('edit_priority').value = priority;
+        document.getElementById('edit_target_date').value = targetDate;
+
+        const modal = new bootstrap.Modal(document.getElementById('editGoalModal'));
+        modal.show(); 
+    }
+
+
     function openPrgoressModal(id, title, currentProgress){
 
         const form = document.getElementById('progressForm');
@@ -247,7 +312,7 @@
 
         document.getElementById('progress_goal_title').textContent = title;
         document.getElementById('progress_percentage').value = currentProgress;
-        document.getElementById('progress_value').value = currentProgress;
+        document.getElementById('progress_value').textContent = currentProgress;
 
         const modal = new bootstrap.Modal(document.getElementById('progressModal'));
         modal.show();
