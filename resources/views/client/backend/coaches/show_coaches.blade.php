@@ -132,7 +132,7 @@
             <div class="mb-3">
                 <h6 class="mb-1">{{ $goal->title }}</h6>
                 <div class="progress" style="height: 6px;">
-                    <div class="progress-bar" role="progressbar" style="width: {{ $goal->progress_percentage }} %"></div>
+                    <div class="progress-bar" role="progressbar" style="width: {{ $goal->progress_percentage }}%"></div>
                 </div>
                 <small class="text-muted">{{ $goal->progress_percentage }}% complete</small>
             </div>

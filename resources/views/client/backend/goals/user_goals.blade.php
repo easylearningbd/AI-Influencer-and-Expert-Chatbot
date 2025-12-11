@@ -97,7 +97,7 @@
 
         <button class="btn btn-sm btn-info" onclick="openEditModal({{ $goal->id }}, '{{ $goal->title }}','{{ ($goal->description ?? '')}}', '{{ $goal->category ?? '' }}', '{{ $goal->priority }}' ,'{{ $goal->target_date?->format('Y-m-d') ?? '' }}' )">Edit</button>
 
-        <form action="">
+        <form action="{{ route('coaches.goals.delete',[$coach->slug,$goal->id]) }}" method="POST" onsubmit="return confirm('Are you sure to delete this goal?')">
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-sm btn-danger">Delete</button>

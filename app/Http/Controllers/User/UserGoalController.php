@@ -153,6 +153,37 @@ class UserGoalController extends Controller
     }
        // End Method
 
+    public function CoachesGoalsDelete(Coach $coach,UserGoal $goal){
+
+         // Verify goal belogns to user and coach 
+        if ($goal->user_id !== Auth::id() || $goal->coach_id !== $coach->id ) {
+            abort(403,'Unauthorized');
+        }
+
+       try {
+            $goal->delete();
+
+       if ($request->expectsJson()) {
+           return response()->json([
+                'success' =>  true,
+                'message' => 'Goal Deleted Successully', 
+           ]);
+        }
+
+        $notification = array(
+            'message' => 'Goal Deleted Successully',
+            'alert-type' => 'success'
+             ); 
+
+        return redirect()->back()->with($notification);   
+
+        } catch (\Exception $e) {
+            return back()->with('error','Failed to update progress' . $e->getMessage());
+        } 
+
+    }
+     // End Method
+
 
 }
  
