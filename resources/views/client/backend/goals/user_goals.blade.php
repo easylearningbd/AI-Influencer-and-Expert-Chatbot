@@ -145,7 +145,7 @@
 <div class="modal fade" id="createGoalModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action=" " method="POST">
+            <form action="{{ route('coaches.goals.store',$coach->slug) }}" method="POST">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title">Create New Goal</h5>

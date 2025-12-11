@@ -32,6 +32,47 @@ class UserGoalController extends Controller
     }
     // End Method 
 
+    public function CoachesGoalsStore(Request $request, Coach $coach){
+
+        $validated = $request->validate([
+            'title' => 'required|string',
+            'description' => 'nullable|string',
+            'category' => 'nullable|string',
+            'priority' => 'nullable|in:low,medium,high',
+            'target_date' => 'nullable|date|after:today', 
+        ]);
+
+        $user = Auth::user();
+        $goal = UserGoal::create([
+            'user_id' => $user->id,
+            'coach_id' => $coach->id,
+            'title' => $validated['title'],
+            'description' => $validated['description'] ?? null,
+            'category' => $validated['category'] ?? null,
+            'target_date' => $validated['target_date'] ?? null,
+            'status' => 'in_progress',
+            'started_at' => now(),
+            'progress_percentage' => 0
+        ]);
+
+        if ($request->expectsJson()) {
+           return response()->json([
+                'success' =>  true,
+                'message' => 'Goal Created Successully',
+                'goal' => $goal
+           ]);
+        }
+
+        $notification = array(
+            'message' => 'Goal Created Successully',
+            'alert-type' => 'success'
+             ); 
+
+        return redirect()->route('coaches.goals.index',$coach->slug)->with($notification); 
+
+    }
+    // End Method 
+
 
 }
  

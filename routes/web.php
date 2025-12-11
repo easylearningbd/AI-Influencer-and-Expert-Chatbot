@@ -93,6 +93,7 @@ Route::post('/coaches/onborarding/{coach:slug}/submit', 'CoachesOnborardingSubmi
 Route::controller(UserGoalController::class)->group(function(){
 
 Route::get('/coaches/goals/{coach:slug}/index', 'CoachesGoalsIndex')->name('coaches.goals.index');
+Route::post('/coaches/goals/{coach:slug}/store', 'CoachesGoalsStore')->name('coaches.goals.store');
   
     
 });
