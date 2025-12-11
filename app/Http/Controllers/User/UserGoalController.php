@@ -75,6 +75,38 @@ class UserGoalController extends Controller
 
     public function CoachesGoalsProgress(Request $request,Coach $coach,UserGoal $goal ){
 
+        $validated = $request->validate([
+            'progress_percentage' => 'required|integer'
+        ]);
+
+        // Verify goal belogns to user and coach 
+        if ($goal->user_id !== Auth::id() || $goal->coach_id !== $coach->id ) {
+            abort(403,'Unauthorized');
+        }
+
+        try {
+            
+            $goal->updateProgress($validated['progress_percentage']);
+
+       if ($request->expectsJson()) {
+           return response()->json([
+                'success' =>  true,
+                'message' => 'Progress Updated Successully',
+                'goal' => $goal->fresh()
+           ]);
+        }
+
+        $notification = array(
+            'message' => 'Progress Updated Successully',
+            'alert-type' => 'success'
+             ); 
+
+        return redirect()->back()->with($notification);  
+
+        } catch (\Exception $e) {
+            return back()->with('error','Failed to update progress' . $e->getMessage());
+        }
+
     }
       // End Method
 
