@@ -112,6 +112,44 @@ class UserGoalController extends Controller
 
     public function CoachesGoalsUpdate(Request $request,Coach $coach,UserGoal $goal ){
 
+        $validated = $request->validate([
+            'title' => 'sometimes|string',
+            'description' => 'nullable|string',
+            'category' => 'nullable|string',
+            'priority' => 'nullable|in:low,medium,high',
+            'target_date' => 'nullable|date', 
+            'status' => 'sometimes|in:in_progress,completed,paused',
+            'coach_notes' => 'nullable|string'
+        ]);
+
+        // Verify goal belogns to user and coach 
+        if ($goal->user_id !== Auth::id() || $goal->coach_id !== $coach->id ) {
+            abort(403,'Unauthorized');
+        }
+
+
+        try {
+            $goal->update($validated);
+
+       if ($request->expectsJson()) {
+           return response()->json([
+                'success' =>  true,
+                'message' => 'Goal Updated Successully',
+                'goal' => $goal->fresh()
+           ]);
+        }
+
+        $notification = array(
+            'message' => 'Goal Updated Successully',
+            'alert-type' => 'success'
+             ); 
+
+        return redirect()->back()->with($notification);   
+
+        } catch (\Exception $e) {
+            return back()->with('error','Failed to update progress' . $e->getMessage());
+        } 
+
     }
        // End Method
 
