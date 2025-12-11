@@ -86,6 +86,25 @@
                         Target: {{ $goal->target_date->format('M d, Y') }}
                     </p>
                     @endif
+
+                @if ($goal->priority)
+                <span class="badge bg-{{ $goal->priority == 'high' ? 'danger' : ($goal->priority == 'medium' ? 'warning' : 'info') }} mb-2">{{ ucfirst($goal->priority) }} Priority</span> 
+                @endif
+
+    <!--- Action Button  -->
+    <div class="d-flex gap-2 mt-3">
+        <button class="btn btn-sm btn-primary" onclick="openPrgoressModal({{ $goal->id }}, '{{ $goal->title }}' , {{ $goal->progress_percentage }})">Progress</button>
+
+        <button class="btn btn-sm btn-info" onclick="openEditModal({{ $goal->id }}, '{{ $goal->title }}','{{ ($goal->description ?? '')}}', '{{ $goal->category ?? '' }}', '{{ $goal->priority }}' ,'{{ $goal->target_date?->format('Y-m-d') ?? '' }}' )">Edit</button>
+
+        <form action="">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+        </form>
+
+    </div>
+
                     
                 </div>
             </div>
