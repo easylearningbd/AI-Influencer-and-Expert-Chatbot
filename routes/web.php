@@ -14,6 +14,7 @@ use App\Http\Controllers\User\ChatController;
 use App\Http\Controllers\User\PaymentController;
 use App\Http\Controllers\User\SubscriptionController;
 use App\Http\Controllers\User\CoachController;
+use App\Http\Controllers\User\UserGoalController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -86,6 +87,13 @@ Route::get('/all/coaches', 'AllCoaches')->name('all.coaches');
 Route::get('/coaches/show/{coach:slug}', 'CoachesShow')->name('coaches.show');
 Route::get('/coaches/onborarding/{coach:slug}', 'CoachesOnborarding')->name('coaches.onborarding');
 Route::post('/coaches/onborarding/{coach:slug}/submit', 'CoachesOnborardingSubmit')->name('coaches.onboarding.submit');
+    
+});
+
+Route::controller(UserGoalController::class)->group(function(){
+
+Route::get('/coaches/goals/{coach:slug}/index', 'CoachesGoalsIndex')->name('coaches.goals.index');
+  
     
 });
 

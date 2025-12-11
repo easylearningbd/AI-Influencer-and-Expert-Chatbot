@@ -123,7 +123,7 @@
     <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="card-title mb-0">Your Goals</h5>
-            <a href=" " class="btn btn-sm btn-primary">
+            <a href="{{ route('coaches.goals.index',$coach->slug) }}" class="btn btn-sm btn-primary">
                 <i class="ri-file-add-fill"></i>
             </a>
         </div>
@@ -137,7 +137,7 @@
                 <small class="text-muted">{{ $goal->progress_percentage }}% complete</small>
             </div>
             @endforeach
-            <a href=" " class="btn btn-sm btn-outline-secondary w-100">View All Goals</a>
+            <a href="{{ route('coaches.goals.index',$coach->slug) }}" class="btn btn-sm btn-outline-secondary w-100">View All Goals</a>
         @else
         <p class="text-muted text-center py-3">No goals yet</p>
         @endif
