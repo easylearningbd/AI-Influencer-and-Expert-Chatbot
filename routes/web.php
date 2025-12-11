@@ -94,7 +94,7 @@ Route::controller(UserGoalController::class)->group(function(){
 
 Route::get('/coaches/goals/{coach:slug}/index', 'CoachesGoalsIndex')->name('coaches.goals.index');
 Route::post('/coaches/goals/{coach:slug}/store', 'CoachesGoalsStore')->name('coaches.goals.store');
-  
+Route::post('/coaches/{coach:slug}/goals/{goal}/progress', 'CoachesGoalsProgress')->name('coaches.goals.progress');
     
 });
 

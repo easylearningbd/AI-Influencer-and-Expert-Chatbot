@@ -206,4 +206,53 @@
         </div>
     </div>
 </div>
+
+<!-- Update Progress Modal -->
+<div class="modal fade" id="progressModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="progressForm" method="POST">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Progress</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Goal: <span id="progress_goal_title"></span></label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="progress_percentage" class="form-label">Progress Percentage</label>
+                        <input type="range" class="form-range" id="progress_percentage" name="progress_percentage" min="0" max="100" value="0" oninput="document.getElementById('progress_value').textContent = this.value">
+                        <div class="text-center mt-2">
+                            <h3><span id="progress_value">0</span>%</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Progress</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function openPrgoressModal(id, title, currentProgress){
+
+        const form = document.getElementById('progressForm');
+        form.action = "{{ route('coaches.goals.progress',[$coach->slug, ':id']) }}".replace(':id',id);
+
+        document.getElementById('progress_goal_title').textContent = title;
+        document.getElementById('progress_percentage').value = currentProgress;
+        document.getElementById('progress_value').value = currentProgress;
+
+        const modal = new bootstrap.Modal(document.getElementById('progressModal'));
+        modal.show();
+
+    }
+</script>
+
 @endsection
