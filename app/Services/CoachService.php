@@ -286,7 +286,7 @@ private function getDefaultPrompt(string $speciality): string {
         $session->update(['session_summary' => $summary]);
     }
   }
-
+ 
     // end endSession Method 
 
     public function needsOnboarding(User $user, Coach $coach): bool {

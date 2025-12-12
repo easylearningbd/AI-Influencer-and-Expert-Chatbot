@@ -15,6 +15,7 @@ use App\Http\Controllers\User\PaymentController;
 use App\Http\Controllers\User\SubscriptionController;
 use App\Http\Controllers\User\CoachController;
 use App\Http\Controllers\User\UserGoalController;
+use App\Http\Controllers\User\CoachSessionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -98,6 +99,15 @@ Route::post('/coaches/{coach:slug}/goals/{goal}/progress', 'CoachesGoalsProgress
     
 Route::put('/coaches/{coach:slug}/goals/{goal}/update', 'CoachesGoalsUpdate')->name('coaches.goals.update');
 Route::delete('/coaches/{coach:slug}/goals/{goal}/delete', 'CoachesGoalsDelete')->name('coaches.goals.delete');
+
+});
+
+
+Route::controller(CoachSessionController::class)->group(function(){
+
+Route::post('/coaches/{coach:slug}/start-session', 'CoachesSessionStart')->name('coaches.session.start');
+Route::get('/coaches/{coach:slug}/messages', 'CoachesSessionMessages')->name('coaches.session.messages');
+Route::post('/coaches/{coach:slug}/send-message', 'CoachesSendMessage')->name('coaches.send.message');
 
 });
 
