@@ -149,5 +149,43 @@
 
 </div>
 
+@if (!$needsOnboarding) 
+<script>
+let sessionId = null;
+const coachSlug = '{{ $coach->slug }}';
+const chatContainer = document.getElementById('chat-container');
+const messageForm = document.getElementById('message-form');
+const messageInput = document.getElementById('message-input');
+const sendBtn = document.getElementById('send-btn');
+const statusText = document.getElementById('status-text');
+
+document.addEventListener('DOMContentLoaded', startSession);
+
+async function startSession(){
+    try {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]');
+        if (!csrfToken) {
+            console.error('CSRF Token not found');
+            statusText.textContent = 'Failed to start session token missing';
+            return;
+        }
+
+
+
+
+    } catch (error) {
+        
+    }
+
+}
+/// End startSession Method 
+
+
+
+
+ 
+
+</script>
+@endif
  
 @endsection
