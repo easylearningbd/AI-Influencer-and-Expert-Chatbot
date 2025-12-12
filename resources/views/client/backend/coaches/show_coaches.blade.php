@@ -205,7 +205,43 @@ async function startSession(){
 
 async function loadMessages(){
 
+    if (!sessionId) return;
+
+    try {
+        const response = await fetch(`/coaches/${coachSlug}/messages?session_id=${sessionId}`);
+
+        const data = await response.json();
+
+        if (data.messages && data.messages.length > 0) {
+            document.getElementById('empty-state')?.remove();
+            data.messages.forEach(msg => displayMessage(msg.role, msg.content));
+        } 
+    } catch (error) {
+        console.error('Error loading messages:',error);
+    }
+
 }
+/// End loadMessages Method 
+
+messageForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const message = messageInput.value.trim();
+    if(!message || !sessionId) return;
+
+    messageInput.disabled = true;
+    sendBtn.disabled = true;
+    statusText.textContent = 'Sending...';
+
+    try {
+        
+    } catch (error) {
+        
+    } 
+
+
+});
+/// End messageForm 
 
 
 
