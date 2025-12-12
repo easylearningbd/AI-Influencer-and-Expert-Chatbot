@@ -129,5 +129,28 @@ class CoachSessionController extends Controller
     }
     //End Method 
 
+    public function CoachesSessionMessages(Request $request,Coach $coach){
+
+        $request->validate([
+            'session_id' => 'required'
+        ]);
+
+        $user = Auth::user();
+
+        $session = CoachSession::where('session_id',$request->session_id)
+                    ->where('user_id',$user->id)
+                    ->where('coach_id',$coach->id)
+                    ->firstOrFail();
+
+       $messages = CoachMessage::where('session_id',$session->id)
+                ->orderBy('created_at','asc')
+                ->get();
+        return response()->json([
+            'messages' => $messages,
+            'session' => $session
+        ]);
+    }
+    //End Method 
+
 
 }
