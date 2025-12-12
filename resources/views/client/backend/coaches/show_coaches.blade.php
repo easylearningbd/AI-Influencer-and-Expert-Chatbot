@@ -170,15 +170,42 @@ async function startSession(){
             return;
         }
 
+    const response = await fetch(`/coaches/${coachSlug}/start-session`,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken.content
+        }
+    });
 
-
-
-    } catch (error) {
-        
+    if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Server error:',errorText);
+        statusText.textContent = 'Failed to start session';
+        return;
     }
 
+    const data = await response.json();
+
+    if (!data.error) { 
+            console.error('Server error:',data.error);
+            statusText.textContent = `Error: ${data.error}`;
+            return;
+        }
+
+     sessionId = data.session.session_id;
+     statusText.textContent = data.message;
+     loadMessages(); 
+
+    } catch (error) {
+        console.error('Error starting session:',error);
+    } 
 }
 /// End startSession Method 
+
+async function loadMessages(){
+
+}
 
 
 
