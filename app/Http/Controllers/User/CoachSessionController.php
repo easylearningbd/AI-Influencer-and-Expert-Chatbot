@@ -116,5 +116,18 @@ class CoachSessionController extends Controller
     }
     //End Method 
 
+    private function saveMessage(CoachSession $session, string $role, string $content){
+
+        return CoachMessage::create([
+            'session_id' => $session->id,
+            'user_id' => $session->user_id,
+            'coach_id' => $session->coach_id,
+            'role' => $role,
+            'content' => $content,
+        ]);
+
+    }
+    //End Method 
+
 
 }
