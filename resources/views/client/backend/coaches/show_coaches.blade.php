@@ -233,19 +233,58 @@ messageForm.addEventListener('submit', async (e) => {
     sendBtn.disabled = true;
     statusText.textContent = 'Sending...';
 
+    displayMessage('user',message);
+    messageInput.value = '';
+
     try {
+        const response = await fetch(`/coaches/${coachSlug}/send-message`,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify([
+            message: message,
+            session_id: sessionId
+          ])
+        });
+
+    const data = await response.josn();
+
+    if (data.error) {
+        alert(data.error);
+        return
+    }
+
+    displayMessage('assistant', data.ai_message.content);
+    statusText.textContent = 'Ready to chat';
         
     } catch (error) {
-        
-    } 
-
-
+         console.error('Error sending messages:',error);
+    } finally {
+        messageInput.disabled = false;
+        sendBtn.disabled = false;
+        messageInput.focus();
+    }
 });
 /// End messageForm 
 
+function displayMessage(role, content) {
+    document.getElementById('empty-state')?.remove();
 
+    const messageDiv = document.createElement('div');
+    messageDiv.style.marginBottom = '20px';
+    messageDiv.style.padding = '12px';
+    messageDiv.style.borderRadius = '8px';
+    messageDiv.style.backgroundColor = role === 'user' ? '#007bff' : 'white';
+    messageDiv.style.color = role === 'user' ? 'white' : 'black';
+    messageDiv.style.marginLeft = role === 'user' ? '20%' : '0';
+    messageDiv.style.marginRight = role === 'user' ? '0' : '20%';
+    messageDiv.textContent = content;
 
-
+    chatContainer.appendChild(messageDiv);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+}
  
 
 </script>
