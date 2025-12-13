@@ -103,7 +103,8 @@ class CoachSessionController extends Controller
     return response()->json([
         'success' => true,
         'user_message' => $userMessage,
-        'ai_message' => $aiResponse['tokens_used'],
+        'ai_message' => $aiMessage,
+        'tokens_used' => $aiResponse['tokens_used'],
         'session' => $session->fresh()
     ]);         
 
@@ -149,6 +150,7 @@ class CoachSessionController extends Controller
             'messages' => $messages,
             'session' => $session
         ]);
+
     }
     //End Method 
 

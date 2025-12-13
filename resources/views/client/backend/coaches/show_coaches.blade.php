@@ -187,7 +187,7 @@ async function startSession(){
 
     const data = await response.json();
 
-    if (!data.error) { 
+    if (data.error) { 
             console.error('Server error:',data.error);
             statusText.textContent = `Error: ${data.error}`;
             return;
@@ -243,13 +243,13 @@ messageForm.addEventListener('submit', async (e) => {
             'Content-Type': 'application/json',
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
         },
-        body: JSON.stringify([
+        body: JSON.stringify({
             message: message,
             session_id: sessionId
-          ])
+          })
         });
 
-    const data = await response.josn();
+    const data = await response.json();
 
     if (data.error) {
         alert(data.error);

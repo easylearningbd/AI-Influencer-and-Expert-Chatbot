@@ -92,7 +92,7 @@ private function buildSystemPrompt(Coach $coach,  ?UserCoachProfile $profile) : 
 
     $personalizedContext = "\n\nUser Profile:\n";
 
-switch ($coach->specialty) {
+switch ($coach->speciality) {
     case 'career':
         if ($profile->current_role) {
             $personalizedContext .= "- Current Role: {$profile->current_role}\n";
@@ -201,6 +201,8 @@ private function getDefaultPrompt(string $speciality): string {
             'nutrition' => "You are Chef Maria Rodriguez, a culinary institute graduate with 20 years of experience. You specialize in meal planning, special diets, nutrition, and quick recipes. Provide delicious, healthy meal suggestions that respect dietary restrictions and allergies. Be creative and make healthy eating enjoyable.",
         ];
 
+    return $prompts[$speciality] ?? "You are a helpful professional coach.";
+
 }
 
 // End getDefaultPrompt Method 
@@ -291,7 +293,7 @@ private function getDefaultPrompt(string $speciality): string {
 
     public function needsOnboarding(User $user, Coach $coach): bool {
 
-        $profile = UserCoachProfile::where('user_id',$use->id)
+        $profile = UserCoachProfile::where('user_id',$user->id)
                 ->where('coach_id',$coach->id)
                 ->first();
 
