@@ -18,7 +18,7 @@ use App\Http\Controllers\User\UserGoalController;
 use App\Http\Controllers\User\CoachSessionController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 
