@@ -90,23 +90,23 @@
                         </a>
                     </li>
                     <li class="side-nav-item">
-                        <a href="apps-invoice-details.html" class="side-nav-link">
+                        <a href="{{ route('coaches.show','career-coach') }}" class="side-nav-link">
                             <span class="menu-text">Career Coach </span>
                         </a>
                     </li>
                     <li class="side-nav-item">
-                        <a href="apps-invoice-create.html" class="side-nav-link">
+                        <a href="{{ route('coaches.show','fitness-coach') }}" class="side-nav-link">
                             <span class="menu-text">Fitness Coach </span>
                         </a>
                     </li>
                     <li class="side-nav-item">
-                        <a href="apps-invoice-create.html" class="side-nav-link">
+                        <a href="{{ route('coaches.show','finance-advisor') }}" class="side-nav-link">
                             <span class="menu-text">Finance Advisor  </span>
                         </a>
                     </li>
 
                     <li class="side-nav-item">
-                        <a href="apps-invoice-create.html" class="side-nav-link">
+                        <a href="{{ route('coaches.show','personal-chef') }}" class="side-nav-link">
                             <span class="menu-text">Personal Chef </span>
                         </a>
                     </li>
